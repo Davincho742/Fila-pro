@@ -23,15 +23,16 @@
                 Menu
             </button>
 
-            <a href="inicioseccion.html" class="nav-link">
+            <a href="iniciosesion.html" class="nav-link">
                 <button>
-                    <span class="material-icons-round">🔒Inicia Sesión</span>
+                    <span class="material-icons-round">Inicia Sesión</span>
                 </button>
             </a>
 
             <a href="inicio.html" class="nav-link">
                 <button>
-                    <span class="material-icons-round">⬅️Vuelve al inicio</span>
+                 <span class="material-icons-round">Vuelve al inicio
+                    </span>
                 </button>
             </a>
         </div>
@@ -42,43 +43,32 @@
             <img src="Fila pro.jpg" alt="Logo Fila Pro">
         </div>
 
-        <div class="welcome-box">
+        <div class="welcome-box" style="margin-left: 40%;" >
             <p>por favor seleccione su perfil😊🍕</p>
         </div>
 
-        <div class="contenedor-login">
-        <h1>REGISTRO</h1>
-        
-        <form>
-            <div class="grupo-entrada">
-                <input type="text" placeholder="targeta de identidad" required>
-                <i class="fa-solid fa-user"></i>
-            </div>
-
-            <div class="grupo-entrada">
-                <input type="password" placeholder="Contraseña" required>
-                <i class="fa-solid fa-lock"></i>
-            </div>
-
-             <div class="grupo-entrada">
-                <input type="password" placeholder="Contraseña" required>
-                <i class="fa-solid fa-lock"></i>
-            </div>
-
-            <div class="opciones">
-                <label class="recordarme">
-                    <input type="checkbox"> Recordarme
-                </label>
-            </div>
-
-            <button type="submit" class="boton-ingresar">Ingresar</button>
-        </form>
-
-        <div class="pie-registro">
-            ¿No tienes una cuenta? <a href="registro.html">Regístrate</a>
+        <div class="contenedor-login" style="margin-left: 35%;">
+    <h1>REGISTRO</h1>
+    
+    <form id="formularioRegistro">
+        <div class="grupo-entrada">
+            <input type="text" id="userID" placeholder="targeta de identidad" required>
+            <i class="fa-solid fa-user"></i>
         </div>
-    </div>
 
+        <div class="grupo-entrada">
+            <input type="password" id="pass1" placeholder="Contraseña" required>
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+         <div class="grupo-entrada">
+            <input type="password" id="pass2" placeholder="Contraseña" required>
+            <i class="fa-solid fa-lock"></i>
+        </div>
+        
+        <button type="submit" class="boton-ingresar">Ingresar</button>
+    </form>
+</div>
         <div class="footer">
             <div class="info-footer">
                 <h3>🔎 Dirección</h3>
@@ -97,6 +87,26 @@
             Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
         </footer>
     </main>
+      
+    <script>
+    document.getElementById('formularioRegistro').addEventListener('submit', function(event) {
+        // Detenemos el envío normal
+        event.preventDefault();
+
+        // Obtenemos los valores
+        const p1 = document.getElementById('pass1').value;
+        const p2 = document.getElementById('pass2').value;
+
+        // Validación de contraseñas
+        if (p1 !== p2) {
+            alert("Las contraseñas no coinciden.");
+        } else {
+            // REDIRECCIÓN DIRECTA
+            // Nota: Si tu archivo tiene espacios, se escribe así:
+            window.location.href = "pagina%20estudiante.html";
+        }
+    });
+</script>
 
 </body>
 </html>
