@@ -1,7 +1,4 @@
 
-
-
-
 * {
     margin: 0;
     padding: 0;
@@ -18,23 +15,62 @@
 
 body {
     background-color: #121212;
+    padding: 2%;
     display: flex;
     min-height: 100vh;
     color: var(--texto-blanco);
 }
 
-
-.fondo{
-    width: 280px;
-    background-color: var(--negro-sidebar);
-    height: 100vh;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    position: fixed; 
+/* ====================== MENÚ SUPERIOR ====================== */
+.menu-superior {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(90deg, var(--negro-sidebar), #1f1f1f);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  padding: 0 20px;
 }
 
+.contenedor-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 75px;
+}
 
+.logo-proyecto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.navegacion-enlaces {
+  display: flex;
+  gap: 40px;
+}
+
+.enlace-navegacion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.enlace-navegacion:hover {
+  color: #00d4ff;
+  transform: translateY(-3px);
+}
 .logo-container {
     display: flex;
     align-items: center;
@@ -61,13 +97,6 @@ body {
 
 .logo-text span {
     color: var(--amarillo-pro);
-}
-
-
-.contenedor {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; 
 }
 
 .nav-link {
@@ -109,7 +138,7 @@ button:hover:not(.menu) {
 
 
 .foto {
-    margin-left: 280px; 
+
     padding: 50px;
     width: 100%;
 }
