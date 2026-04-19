@@ -1,3 +1,7 @@
+
+
+
+
 * {
     margin: 0;
     padding: 0;
@@ -104,7 +108,7 @@ button:hover:not(.menu) {
 }
 
 
-.main-content {
+.foto {
     margin-left: 280px; 
     padding: 50px;
     width: 100%;

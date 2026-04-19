@@ -200,6 +200,7 @@ button:hover:not(.menu) {
 .pie-registro {
     margin-top: 25px;
     font-size: 0.85rem;
+    text-align: center;
 }
 
 .pie-registro a {
