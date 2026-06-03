@@ -1,3 +1,5 @@
+/*background(fondo)*/
+
 * {
     margin: 0;
     padding: 0;
@@ -6,48 +8,18 @@
 }
 
 :root {
-    --negro-sidebar: #0f0f0f; 
-    --amarillo-pro: #ece134;  
+    --negro-sidebar: #0D0D0D; 
+    --amarillo-pro: #2aff7a;   
     --gris-hover: #1e1e1e;
-    --texto-blanco: #ffffff;
+    --texto-blanco: #ffffff;  
 }
 
 body {
-    background-color: #121212;
+    background-color: #121212; 
     display: flex;
+    min-height: 100vh;
     color: var(--texto-blanco);
-     padding: 40px 20px;
 }
-
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 50px;
-    padding-left: 10px;
-}
-
-.logo-box {
-    background-color: var(--amarillo-pro);
-    color: black;
-    padding: 8px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-}
-
-.logo-text {
-    font-size: 24px;
-    font-weight: 800;
-    font-style: italic; 
-    color: white;
-}
-
-.logo-text span {
-    color: var(--amarillo-pro);
-}
-
 
 /* ====================== MENÚ SUPERIOR ====================== */
 .menu-superior {
@@ -100,6 +72,34 @@ body {
   transform: translateY(-3px);
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 50px;
+    padding-left: 10px;
+}
+
+.logo-box {
+    background-color: var(--amarillo-pro);
+    color: black;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 800;
+    font-style: italic; 
+    color: white;
+}
+
+.logo-text span {
+    color: var(--amarillo-pro);
+}
+
 .nav-link {
     text-decoration: none;
 }
@@ -126,12 +126,19 @@ button span {
     font-size: 22px;
 }
 
+
+button.menu {
+    background-color: var(--amarillo-pro);
+    color: black;
+}
+
+
 button:hover:not(.menu) {
     background-color: var(--gris-hover);
 }
 
 
-.main-content { 
+.foto {
     padding: 50px;
     width: 100%;
 }
@@ -142,98 +149,6 @@ button:hover:not(.menu) {
     margin-bottom: 30px;
 }
 
-.contenedor-login {
-    background-color: #121212;
-    padding: 40px;
-    border-radius: 30px;
-    width: 380px;
-    color: white;
-    border: 1px solid #222;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-}
-
-.contenedor-login h1 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    font-weight: bold;
-}
-
-.grupo-entrada {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.grupo-entrada input {
-    width: 100%;
-    padding: 15px 25px;
-    background-color: transparent;
-    border: 1.5px solid #444;
-    border-radius: 35px;
-    color: white;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
-.grupo-entrada input:focus {
-    border-color: #e8e337;
-}
-
-.grupo-entrada i {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
-    font-size: 0.9rem;
-}
-
-.opciones {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    margin-bottom: 30px;
-    padding: 0 10px;
-}
-
-.opciones a {
-    color: white;
-    text-decoration: none;
-}
-
-.opciones a:hover {
-    text-decoration: underline;
-}
-
-.boton-ingresar {
-    width: 100%;
-    padding: 14px;
-    border-radius: 35px;
-    border: none;
-    background-color: #f0f0f0;
-    color: black;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.boton-ingresar:hover {
-    background-color: #e8e337;
-}
-
-.pie-registro {
-    margin-top: 25px;
-    font-size: 0.85rem;
-    text-align: center;
-}
-
-.pie-registro a {
-    color: #e8e337;
-    text-decoration: none;
-    font-weight: bold;
-}
 
 .info-footer {
     display: grid;
@@ -260,4 +175,4 @@ button:hover:not(.menu) {
     text-align: center;
     color: #555;
     font-size: 14px;
-}
+} 

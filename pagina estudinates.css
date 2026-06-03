@@ -1,6 +1,4 @@
-
-
-
+/*background(fondo)*/
 
 * {
     margin: 0;
@@ -10,19 +8,18 @@
 }
 
 :root {
-    --negro-sidebar: #0f0f0f; 
-    --amarillo-pro: #ece134;  
+    --negro-sidebar: #0D0D0D; 
+    --amarillo-pro: #2aff7a;   
     --gris-hover: #1e1e1e;
-    --texto-blanco: #ffffff;
+    --texto-blanco: #ffffff;  
 }
 
 body {
-    background-color: #121212;
+    background-color: #121212; 
     display: flex;
     min-height: 100vh;
     color: var(--texto-blanco);
 }
-
 /* ====================== MENÚ SUPERIOR ====================== */
 .menu-superior {
   position: fixed;
@@ -73,6 +70,7 @@ body {
   color: #00d4ff;
   transform: translateY(-3px);
 }
+
 .logo-container {
     display: flex;
     align-items: center;
@@ -142,6 +140,7 @@ button:hover:not(.menu) {
 .foto {
     padding: 50px;
     width: 100%;
+    margin-top: 80px; /* Protege el logo del banner para que el menú no lo pise */
 }
 
 .banner img {
@@ -151,7 +150,7 @@ button:hover:not(.menu) {
 }
 
 
-.info-footer {
+.footer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
@@ -176,4 +175,4 @@ button:hover:not(.menu) {
     text-align: center;
     color: #555;
     font-size: 14px;
-} 
+}

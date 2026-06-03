@@ -1,6 +1,4 @@
-
-
-
+/*background(fondo)*/
 
 * {
     margin: 0;
@@ -10,14 +8,14 @@
 }
 
 :root {
-    --negro-sidebar: #0f0f0f; 
-    --amarillo-pro: #ece134;  
+    --negro-sidebar: #0D0D0D; 
+    --amarillo-pro: #2aff7a;   
     --gris-hover: #1e1e1e;
-    --texto-blanco: #ffffff;
+    --texto-blanco: #ffffff;  
 }
 
 body {
-    background-color: #121212;
+    background-color: #121212; 
     display: flex;
     min-height: 100vh;
     color: var(--texto-blanco);

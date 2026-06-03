@@ -8,55 +8,39 @@
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
 </head>
 <body>
-     <nav class="menu-superior">
-  <div class="contenedor-menu">   
-       
-    <div class="logo-proyecto">
-      <span class="material-icons-round"></span>
-      Fila Pro
-    </div> 
-    
-       <a href="inicio.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-        Vuleve al inicio
-      </a>
-    </div>
-</nav>
       
     <main class="foto">
-        <div class="banner">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro">
+        <div class="banner" style="margin-top: 15px";>
+            <img src="Fila pro.jpg">
         </div>
-
-        <div class="welcome-box" style="margin-left: 28%;">
-            <p>Por Favor inicie sección con su cuenta correspondiente😊🍕</p>
-        </div>
-
-    <div class="contenedor-login">
-        <h1>Inico de sección</h1>
         
-        <form>
-            <div class="grupo-entrada">
-                <input type="text" placeholder="targeta de identidad" required>
-                <i class="fa-solid fa-user"></i>
-            </div>
-
-            <div class="grupo-entrada">
-                <input type="password" placeholder="Contraseña" required>
-                <i class="fa-solid fa-lock"></i>
-            </div>
-
-            <div class="opciones">
-                <a href="#" class="olvido">¿Olvidaste tu contraseña?</a>
-            </div>
-
-            <button type="submit" class="boton-ingresar">Ingresar <a href="pagina estudiante.html"></a></button>
-        </form>
-
-        <div class="pie-registro">
-            ¿No tienes una cuenta? <a href="registro.html">Regístrate</a>
+        <div class="welcome-box">
+            <p>Por favor inicia sesión con tu cuenta correspondiente 😊🍕</p>
         </div>
-    </div>
+        <br>
+
+        <div class="contenedor-login">
+            <div class="selector-perfil">
+                <div id="btn-estudiante" class="opcion-perfil activa" onclick="cambiarPerfil('estudiante')">Estudiante</div>
+                <div id="btn-profesor" class="opcion-perfil" onclick="cambiarPerfil('profesor')">Profesor</div>
+            </div>
+
+            <h1 id="titulo-dinamico">Inicie Sesión</h1>
+            
+            <form id="form-login">
+                <div class="grupo-entrada">
+                    <input type="text" id="user" placeholder="Nombre de usuario" required>
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                
+                <div class="grupo-entrada">
+                    <input type="password" id="pass" placeholder="Contraseña" required>
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                
+                <button type="submit" class="boton-ingresar">Ingresar</button>
+            </form>
+        </div>
 
         <div class="footer">
             <div class="info-footer">
@@ -73,9 +57,57 @@
         </div>
 
         <footer class="mini-footer">
-            Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
+            Copyright © 2025-2026 - Todos los derechos reservados (Fila Pro).
         </footer>
     </main>
 
+    <script>
+        let perfilActual = 'estudiante';
+
+        function cambiarPerfil(perfil) {
+            perfilActual = perfil;
+            const btnEst = document.getElementById('btn-estudiante');
+            const btnProf = document.getElementById('btn-profesor');
+            const titulo = document.getElementById('titulo-dinamico');
+            const inputPass = document.getElementById('pass');
+
+            if (perfil === 'estudiante') {
+                btnEst.classList.add('activa');
+                btnProf.classList.remove('activa');
+                titulo.innerText = "Estudiante";
+                inputPass.placeholder = "Contraseña (Número de TI)";
+            } else {
+                btnProf.classList.add('activa');
+                btnEst.classList.remove('activa');
+                titulo.innerText = "Profesor";
+                inputPass.placeholder = "Contraseña (Cédula)";
+            }
+        }
+
+        // ÚNICA FUNCIÓN DE VALIDACIÓN Y REDIRECCIÓN
+        document.getElementById('form-login').addEventListener('submit', function(e) {
+            e.preventDefault(); // Detiene el envío automático
+            
+            const usuarioIngresado = document.getElementById('user').value;
+            const claveIngresada = document.getElementById('pass').value;
+
+            if (perfilActual === 'estudiante') {
+                //Validación Estudiante//
+                if (usuarioIngresado === 'davidt' && claveIngresada === '1234') {
+                    window.location.href = "pagina estudiante.html";
+                } else {
+                    alert("Usuario o contraseña de Estudiante incorrectos. ☹️");
+                }
+            } 
+            else {
+                //validación del profesor//
+                if (usuarioIngresado === 'profesor' && claveIngresada === '1234') {
+                    window.location.href = "pagina maestro.html";
+                } else {
+                    alert("Usuario o contraseña de Profesor incorrectos. ☹️");
+                }
+            }
+        });
+    </script>
 </body>
 </html>
