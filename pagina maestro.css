@@ -22,6 +22,7 @@ body {
     animation: slideIn 0.35s ease;
     background: linear-gradient(to bottom, #121212 50%, #0d3d0d 100%);
 }
+
 /* ====================== MENÚ SUPERIOR ====================== */
 .menu-superior {
   position: fixed;
@@ -72,6 +73,7 @@ body {
   color: #00d4ff;
   transform: translateY(-3px);
 }
+
 .logo-container {
     display: flex;
     align-items: center;

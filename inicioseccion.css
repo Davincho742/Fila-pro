@@ -21,6 +21,8 @@ body {
     align-items: center;
     min-height: 100vh;
     color: var(--texto-blanco);
+    animation: slideIn 0.35s ease;
+    background: linear-gradient(to bottom, #121212 50%, #0d3d0d 100%);
 }
 
 /* ====================== CONTENIDO PRINCIPAL ====================== */
@@ -167,7 +169,7 @@ body {
 
 .mini-footer {
     margin-top: 5%;
-    color: #555;
+    color: #ffffff;
     font-size: 0.8rem;
     padding-bottom: 20px;
 }

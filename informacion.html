@@ -18,6 +18,10 @@
     </div>
 
     <div class="navegacion-enlaces">
+         <a href="pagina estudiante.html" class="enlace-navegacion">
+        <span class="material-icons-round"></span>
+        Inicio
+      </a>
       <a href="asistencia.html" class="enlace-navegacion">
         <span class="material-icons-round"></span>
        Asistencia
@@ -26,6 +30,7 @@
         <span class="material-icons-round"></span>
         cerrar sesión
       </a>
+      
     </div>
 </nav>
     
@@ -56,6 +61,20 @@
             Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
         </footer>
     </main>
+
+    <script>
+  document.querySelectorAll('a[href]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http')) return;
+      e.preventDefault();
+      document.body.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+      document.body.style.opacity    = '0';
+      document.body.style.transform  = 'translateY(-14px)';
+      setTimeout(function() { window.location.href = href; }, 260);
+    });
+  });
+</script>
 
 </body>
 </html>
