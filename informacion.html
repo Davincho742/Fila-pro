@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -39,6 +40,12 @@
         <div class="banner">
             <img src="Fila pro.jpg" alt="Logo Fila Pro">
         </div>
+  <div class="estado" style="text-align: center;">
+    <p>Aca podras ver si tu cupo se a suspendido o todavia sigue vigente.</p>
+  </div>
+        <div class="estado" id="contenedor-estado-dinamico" style="text-align: center;">
+          <p>Cargando estado...</p>
+        </div>
 
         <div class="caja bienvenida" style="text-align: center;">
             <p>Bienvenido a la plataforma oficial de Fila Pro.</p>
@@ -74,6 +81,42 @@
       setTimeout(function() { window.location.href = href; }, 260);
     });
   });
+</script>
+
+<script>
+    function verificarEstadoEstudiante() {
+        const contenedor = document.getElementById("contenedor-estado-dinamico");
+
+        // Cambia la palabra a "vigente", "suspendido" o "no-agregado" para probar cómo se ve
+        const estadoSimulado = "vigente"; 
+
+        if (estadoSimulado === "vigente") {
+            contenedor.innerHTML = `
+                <div class="estado-box estado-vigente">
+                    CUPO VIGENTE / ACTIVO ✅
+                    <p style="font-size: 0.9rem; font-weight: normal; margin-top: 5px; color: #155724;">Tu cupo se encuentra al día. Recuerda registrar tu asistencia.</p>
+                </div>
+            `;
+        } 
+        else if (estadoSimulado === "suspendido") {
+            contenedor.innerHTML = `
+                <div class="estado-box estado-suspendido">
+                    CUPO SUSPENDIDO TEMPORALMENTE ⚠️
+                    <p style="font-size: 0.9rem; font-weight: normal; margin-top: 5px; color: #856404;">Acumulaste fallas sin justificación. Acércate a coordinación para reactivarlo.</p>
+                </div>
+            `;
+        } 
+        else if (estadoSimulado === "no-agregado") {
+            contenedor.innerHTML = `
+                <div class="estado-box estado-no-agregado">
+                    NO AGREGADO A LA LISTA ❌
+                    <p style="font-size: 0.9rem; font-weight: normal; margin-top: 5px; color: #721c24;">No estás en la lista oficial. Dirígete con el encargado para tu inscripción.</p>
+                </div>
+            `;
+        }
+    }
+
+    verificarEstadoEstudiante();
 </script>
 
 </body>

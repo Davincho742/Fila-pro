@@ -17,7 +17,6 @@
       Fila Pro
     </div>
     
-    
     <div class="navegacion-enlaces">
     <a href="pagina estudiante.html" class="enlace-navegacion">
         <span class="material-icons-round"></span>
@@ -34,7 +33,6 @@
     </div>
   </div>
 </nav>
-    
 
     <main class="foto" style="margin-top: 80px;"> <div class="banner">
             <img src="Fila pro.jpg" alt="Logo Fila Pro">
@@ -44,8 +42,10 @@
         </div>
          
         <div class="contenedor-calendario">
-            <div class="cabecera-calendario" style="text-align: center;">
-                <h2 id="nombre-mes-dinamico">Cargando mes...</h2>
+            <div class="cabecera-calendario" style="text-align: center; display: flex; justify-content: space-between; align-items: center; padding: 0 15px;">
+                <button id="btn-anterior" style="cursor: pointer; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc;">&#8592; Anterior</button>
+                <h2 id="nombre-mes-dinamico" style="margin: 0;">Cargando mes...</h2>
+                <button id="btn-siguiente" style="cursor: pointer; padding: 5px 10px; border-radius: 5px; border: 1px solid #ccc;">Siguiente &#8594;</button>
             </div>
             
             <div class="dias-semana-grid">
@@ -89,62 +89,45 @@
     </script>
 
     <script>
-        // Defino el ID único del estudiante que está visualizando su perfil (en este caso uso mi prueba EST-28)
         const estudianteSesionID = "1033261277-2026"; 
 
-        // Aquí creo un listado con todos los días festivos oficiales de Colombia para el año 2026 (Formato YYYY-MM-DD)
         const festivosColombia2026 = [
-            "2026-01-01", // Año Nuevo
-            "2026-01-12", // Día de los Reyes Magos
-            "2026-03-23", // Día de San José
-            "2026-04-02", // Jueves Santo
-            "2026-04-03", // Viernes Santo
-            "2026-05-01", // Día del Trabajo
-            "2026-05-18", // Día de la Ascensión
-            "2026-06-08", // Corpus Christi
-            "2026-06-15", // Sagrado Corazón
-            "2026-06-29", // San Pedro y San Pablo
-            "2026-07-20", // Día de la Independencia
-            "2026-08-07", // Batalla de Boyacá
-            "2026-08-17", // Asunción de la Virgen
-            "2026-10-12", // Día de la Raza
-            "2026-11-02", // Día de los Todos los Santos
-            "2026-11-16", // Independencia de Cartagena
-            "2026-12-08", // Día de la Inmaculada Concepción
-            "2026-12-25"  /* Día de Navidad */
+            "2026-01-01", "2026-01-12", "2026-03-23", "2026-04-02", 
+            "2026-04-03", "2026-05-01", "2026-05-18", "2026-06-08", 
+            "2026-06-15", "2026-06-29", "2026-07-20", "2026-08-07", 
+            "2026-08-17", "2026-10-12", "2026-11-02", "2026-11-16", 
+            "2026-12-08", "2026-12-25"  
         ];
+
+        let fechaNavegacion = new Date();
+        let añoActual = fechaNavegacion.getFullYear();
+        let mesActual = fechaNavegacion.getMonth();
 
         function inicializarCalendarioAsistencia() {
             const gridContenedor = document.getElementById("grid-dias-dinamico");
             const tituloMesHTML = document.getElementById("nombre-mes-dinamico");
             
-            // Obtengo los datos de la fecha del sistema en tiempo real
             const fechaHoy = new Date();
-            const añoActual = fechaHoy.getFullYear();
-            const mesActual = fechaHoy.getMonth();
+            const añoReal = fechaHoy.getFullYear();
+            const mesReal = fechaHoy.getMonth();
             const diaDelMesHoy = fechaHoy.getDate();
 
-            // Configuro los nombres para poder mostrar el mes actual en español de manera automática
             const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             tituloMesHTML.innerText = `${nombresMeses[mesActual]} ${añoActual}`;
 
-            // AQUÍ ABRO LA MEMORIA COMPARTIDA: Reviso las fechas que guardó el escáner del QR para este ID
             const historialAsistencias = JSON.parse(localStorage.getItem(`asistencia_${estudianteSesionID}`)) || [];
 
-            // Calculo de forma exacta en qué día de la semana arranca el mes y cuántos días tiene en total
             const primerDiaIndex = new Date(añoActual, mesActual, 1).getDay();
             const diasTotalesMes = new Date(añoActual, mesActual + 1, 0).getDate();
 
             gridContenedor.innerHTML = "";
 
-            // Aquí coloco los espacios invisibles si el mes no arranca directamente en el día domingo
             for (let i = 0; i < primerDiaIndex; i++) {
                 const celdaVacia = document.createElement("div");
                 celdaVacia.classList.add("celda-vacia");
                 gridContenedor.appendChild(celdaVacia);
             }
 
-            // Aquí empiezo a construir los días del mes en la grilla uno por uno de manera automática
             for (let dia = 1; dia <= diasTotalesMes; dia++) {
                 const celdaDia = document.createElement("div");
                 celdaDia.classList.add("celda-dia");
@@ -153,34 +136,36 @@
                 const fechaEvaluada = new Date(añoActual, mesActual, dia);
                 const diaDeLaSemana = fechaEvaluada.getDay();
 
-                // Armo la fecha exacta en texto (Formato: YYYY-MM-DD) para comparar de forma idéntica con el QR y los festivos
                 const mesFormateado = String(mesActual + 1).padStart(2, '0');
                 const diaFormateado = String(dia).padStart(2, '0');
+                
+                // Formato exacto con ceros
                 const claveFechaCompleta = `${añoActual}-${mesFormateado}-${diaFormateado}`;
+                // Formato alternativo sin ceros (por si el escáner lo guarda así)
+                const claveFechaSinCeros = `${añoActual}-${mesActual + 1}-${dia}`; 
 
-                // Aquí compruebo si el día que estoy dibujando corresponde exactamente al día de hoy para resaltarlo
-                if (dia === diaDelMesHoy) {
+                if (dia === diaDelMesHoy && mesActual === mesReal && añoActual === añoReal) {
                     celdaDia.classList.add("hoy");
                 }
 
-                // Aquí hago la gran validación en primera persona: pregunto si es fin de semana o si está en mi lista de festivos
                 const esFinDeSemana = (diaDeLaSemana === 0 || diaDeLaSemana === 6);
                 const esFestivo = festivosColombia2026.includes(claveFechaCompleta);
 
                 if (esFinDeSemana) {
-                    // Si es fin de semana, le pongo su diseño oscuro y no cuento faltas
                     celdaDia.classList.add("fin-semana");
                 } else if (esFestivo) {
-                    // Si cae en un día de mi lista de festivos, le pongo el diseño de festivo y tampoco cuento faltas
                     celdaDia.classList.add("festivo");
                 } else {
-                    // AQUÍ CONECTO LOS DATOS DEL QR CON MI CALENDARIO SOLO EN DÍAS ESCOLARES HÁBILES:
-                    if (historialAsistencias.includes(claveFechaCompleta)) {
-                        // Si el estudiante escaneó el QR en un día válido, le coloco la X verde
+                    // Validamos ambos formatos para que no marque fallas por error de ceros
+                    if (historialAsistencias.includes(claveFechaCompleta) || historialAsistencias.includes(claveFechaSinCeros)) {
                         celdaDia.classList.add("asistio");
-                    } else if (fechaEvaluada < fechaHoy && dia !== diaDelMesHoy) {
-                        // Si el día escolar ya pasó y la memoria del QR está vacía, le coloco el punto rojo de falta automáticamente
+                        // AQUÍ ESTÁ EL PUNTICO VERDE QUE PEDISTE
+                        celdaDia.innerHTML = `${dia} <div style="color: #28a745; font-size: 18px; line-height: 0.5; margin-top: 5px;">●</div>`;
+                    
+                    } else if (fechaEvaluada < new Date(añoReal, mesReal, diaDelMesHoy)) {
                         celdaDia.classList.add("falta");
+                        // OPCIONAL: Si también quieres que la falta sea un puntico rojo en vez de pintar todo el cuadro, borra las dos barras '//' de la línea de abajo:
+                        // celdaDia.innerHTML = `${dia} <div style="color: #dc3545; font-size: 18px; line-height: 0.5; margin-top: 5px;">●</div>`;
                     }
                 }
 
@@ -188,7 +173,24 @@
             }
         }
 
-        // Aquí ejecuto mi función para que el calendario se pinte de inmediato al abrir o recargar mi página
+        document.getElementById("btn-anterior").addEventListener("click", () => {
+            mesActual--;
+            if (mesActual < 0) {
+                mesActual = 11;
+                añoActual--;
+            }
+            inicializarCalendarioAsistencia();
+        });
+
+        document.getElementById("btn-siguiente").addEventListener("click", () => {
+            mesActual++;
+            if (mesActual > 11) {
+                mesActual = 0;
+                añoActual++;
+            }
+            inicializarCalendarioAsistencia();
+        });
+
         inicializarCalendarioAsistencia();
     </script>
 
