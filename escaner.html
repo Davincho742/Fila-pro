@@ -5,41 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro</title>
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
-    <style>
-        body {
-            background-color: #0b0b0b;
-            color: #ffffff;
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .tarjeta-alerta {
-            background-color: #121212;
-            border: 2px solid #2aff7a; /* Verde eléctrico de Fila Pro */
-            padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(42, 255, 122, 0.2);
-            max-width: 90%;
-            width: 350px;
-        }
-        .icono-exito {
-            font-size: 4rem;
-            color: #2aff7a;
-            margin-bottom: 20px;
-            animation: pop 0.4s ease-out;
-        }
-        h1 { font-size: 1.6rem; margin-bottom: 10px; }
-        p { color: #aaaaaa; font-size: 1rem; }
-        @keyframes pop {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-    </style>
-    
+    <link rel="stylesheet" href="escaner.css">
 </head>
 <body>
 
@@ -50,54 +16,49 @@
     </div>
 
     <script>
-        // En esta función capturo los datos directamente desde la URL del QR
+        // Función principal para procesar el escaneo desde la URL
         function procesarEscaneoQR() {
             const parametrosURL = new URLSearchParams(window.location.search);
-            const idEstudiante = parametrosURL.get('id'); // Obtengo el 'EST-28' por ejemplo
+            const idEstudiante = parametrosURL.get('id');
 
             if (!idEstudiante) {
                 document.getElementById('mensaje-estado').innerText = "ERROR: Código QR no válido o corrupto.";
                 return;
             }
 
-            // Calculo la fecha de hoy de forma idéntica a como la lee mi calendario
+            // Cálculo de fecha actual
             const fechaHoy = new Date();
             const año = fechaHoy.getFullYear();
             const mes = String(fechaHoy.getMonth() + 1).padStart(2, '0');
             const dia = String(fechaHoy.getDate()).padStart(2, '0');
             const claveFechaHoy = `${año}-${mes}-${dia}`;
 
-            // Abro el historial del estudiante en la memoria
+            // Lectura del historial en LocalStorage
             let historial = JSON.parse(localStorage.getItem(`asistencia_${idEstudiante}`)) || [];
 
-            // Valido si ya se había escaneado hoy para avisar
+            // Validación de registro duplicado
             if (historial.includes(claveFechaHoy)) {
                 document.getElementById('mensaje-estado').innerText = "Este almuerzo ya fue reclamado el día de hoy.";
             } else {
-                // Registro la asistencia de hoy en su base de datos local
                 historial.push(claveFechaHoy);
                 localStorage.setItem(`asistencia_${idEstudiante}`, JSON.stringify(historial));
                 document.getElementById('mensaje-estado').innerText = `Almuerzo registrado con éxito para el ID: ${idEstudiante}.`;
             }
         }
 
-        // Ejecuto mi lógica apenas abre la página en el celular
+        // Ejecución al cargar
         procesarEscaneoQR();
 
+        // Lógica complementaria para el calendario de la sesión
+        const estudianteSesionID = "EST-28"; 
+        const historialAsistencias = JSON.parse(localStorage.getItem(`asistencia_${estudianteSesionID}`)) || [];
 
-        // Defino qué estudiante está mirando esta pantalla
-const estudianteSesionID = "EST-28"; 
-
-// AQUÍ CONECTO CON LO QUE ESCANEÓ EL CELULAR:
-// Al traer 'asistencia_EST-28', mi calendario lee inmediatamente el día que añadió el escaner
-const historialAsistencias = JSON.parse(localStorage.getItem(`asistencia_${estudianteSesionID}`)) || [];
-
-// ... Dentro de tu bucle for que dibuja los días ...
-if (historialAsistencias.includes(claveFechaCompleta)) {
-    // Si el celular añadió la fecha de hoy, pinto la X verde en el día correspondiente
-    celdaDia.classList.add("asistio");
-}
-
+        // Función de apoyo para integrar con el renderizado de celdas
+        function verificarAsistenciaDia(claveFechaCompleta, celdaDia) {
+            if (historialAsistencias.includes(claveFechaCompleta)) {
+                celdaDia.classList.add("asistio");
+            }
+        }
     </script>
 </body>
 </html>
