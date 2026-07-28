@@ -8,37 +8,48 @@
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
 </head>
 <body>
-    
+
     <main class="foto">
-        <div class="banner" style="margin-top: 15px";>
+        <div class="banner" style="margin-top: 15px;">
             <img src="Fila pro.jpg">
         </div>
-        
+
         <div class="welcome-box">
             <p>Por favor inicia sesión con tu cuenta correspondiente 😊🍕</p>
         </div>
         <br>
 
         <div class="contenedor-login">
-            <div class="selector-perfil">
-                <div id="btn-estudiante" class="opcion-perfil activa" onclick="cambiarPerfil('estudiante')">Estudiante</div>
-                <div id="btn-profesor" class="opcion-perfil" onclick="cambiarPerfil('profesor')">Profesor</div>
-            </div>
-
             <h1 id="titulo-dinamico">Inicie Sesión</h1>
-            
+
             <form id="form-login">
-                <div class="grupo-entrada">
-                    <input type="text" id="user" placeholder="Nombre de usuario" required>
-                    <i class="fa-solid fa-user"></i>
+            
+                <div id="campos-credenciales">
+                    <div class="grupo-entrada">
+                        <label style="display: block; text-align: left; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">NOMBRE DE USUARIO</label>
+                        <input type="text" id="user" name="usuario" placeholder="Nombre de usuario">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="grupo-entrada">
+                        <label style="display: block; text-align: left; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">CONTRASEÑA</label>
+                        <input type="password" id="pass" name="contraseña" placeholder="Contraseña">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
                 </div>
-                
+
+                <!-- SECTOR DE PERFIL -->
                 <div class="grupo-entrada">
-                    <input type="password" id="pass" placeholder="Contraseña" required>
-                    <i class="fa-solid fa-lock"></i>
+                    <label style="display: block; text-align: left; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">ROL</label>
+                    <select name="rol" id="select-rol" onchange="cambiarPerfil(this.value)" required style="width: 100%; padding: 12px; background-color: #1e1e1e; color: white; border: 1px solid #333; border-radius: 6px; font-size: 16px; cursor: pointer;">
+                        <option value="" disabled selected>Seleccione su perfil</option>
+                        <option value="estudiante">Estudiante</option>
+                        <option value="profesor">Profesor</option>
+                        <option value="validacion">Punto de Validación</option>
+                    </select>
                 </div>
-                
-                <button type="submit" class="boton-ingresar">Ingresar</button>
+
+                <button type="submit" class="boton-ingresar" id="btn-enviar" style="margin-top: 15px;">Ingresar</button>
             </form>
         </div>
 
@@ -62,66 +73,85 @@
     </main>
 
     <script>
-        let perfilActual = 'estudiante';
 
+        const USUARIO_VALIDO = 'prueba';
+        const CLAVE_VALIDA   = '1234';
+
+        let perfilActual = '';
+
+        // Escucha los cambios del menú desplegable de ROL
         function cambiarPerfil(perfil) {
             perfilActual = perfil;
-            const btnEst = document.getElementById('btn-estudiante');
-            const btnProf = document.getElementById('btn-profesor');
+
             const titulo = document.getElementById('titulo-dinamico');
+            const contenedorCampos = document.getElementById('campos-credenciales');
+            const inputUser = document.getElementById('user');
             const inputPass = document.getElementById('pass');
+            const btnEnviar = document.getElementById('btn-enviar');
 
             if (perfil === 'estudiante') {
-                btnEst.classList.add('activa');
-                btnProf.classList.remove('activa');
                 titulo.innerText = "Estudiante";
+                contenedorCampos.style.display = "block";
+                inputUser.required = true;
+                inputPass.required = true;
                 inputPass.placeholder = "Contraseña (Número de TI)";
-            } else {
-                btnProf.classList.add('activa');
-                btnEst.classList.remove('activa');
-                titulo.innerText = "Profesor";
-                inputPass.placeholder = "Contraseña (Cédula)";
+                btnEnviar.innerText = "Ingresar";
             }
+            else if (perfil === 'profesor') {
+                titulo.innerText = "Profesor";
+                contenedorCampos.style.display = "block";
+                inputUser.required = true;
+                inputPass.required = true;
+                inputPass.placeholder = "Contraseña (Cédula)";
+                btnEnviar.innerText = "Ingresar";
+            }
+    
         }
 
-        // ÚNICA FUNCIÓN DE VALIDACIÓN Y REDIRECCIÓN
+        // ÚNICA FUNCIÓN DE VALIDACIÓN Y REDIRECCIÓN (todo local, sin base de datos)
         document.getElementById('form-login').addEventListener('submit', function(e) {
             e.preventDefault(); // Detiene el envío automático
-            
+
+            if (!perfilActual) {
+                alert("Por favor selecciona un perfil antes de ingresar. ☹️");
+                return;
+            }
+
             const usuarioIngresado = document.getElementById('user').value;
             const claveIngresada = document.getElementById('pass').value;
 
             if (perfilActual === 'estudiante') {
-                //Validación Estudiante//
-                if (usuarioIngresado === 'davidt' && claveIngresada === '1234') {
+                if (usuarioIngresado === USUARIO_VALIDO && claveIngresada === CLAVE_VALIDA) {
                     window.location.href = "pagina estudiante.html";
                 } else {
                     alert("Usuario o contraseña de Estudiante incorrectos. ☹️");
                 }
-            } 
-            else {
-                //validación del profesor//
-                if (usuarioIngresado === 'profesor' && claveIngresada === '1234') {
+            }
+            else if (perfilActual === 'profesor') {
+                if (usuarioIngresado === USUARIO_VALIDO && claveIngresada === CLAVE_VALIDA) {
                     window.location.href = "pagina maestro.html";
                 } else {
                     alert("Usuario o contraseña de Profesor incorrectos. ☹️");
                 }
             }
+            else if (perfilActual === 'validacion') {
+                // Terminal de escaneo: no pide usuario/clave, pasa directo
+                window.location.href = "punto validacion.html";
+            }
         });
 
-        
-  document.querySelectorAll('a[href]').forEach(function(link) {
-    link.addEventListener('click', function(e) {
-      var href = this.getAttribute('href');
-      if (!href || href.startsWith('#') || href.startsWith('http')) return;
-      e.preventDefault();
-      document.body.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-      document.body.style.opacity    = '0';
-      document.body.style.transform  = 'translateY(-14px)';
-      setTimeout(function() { window.location.href = href; }, 260);
-    });
-  });
-
+        // Animación de transición entre páginas
+        document.querySelectorAll('a[href]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                var href = this.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('http')) return;
+                e.preventDefault();
+                document.body.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                document.body.style.opacity    = '0';
+                document.body.style.transform  = 'translateY(-14px)';
+                setTimeout(function() { window.location.href = href; }, 260);
+            });
+        });
     </script>
-    
+</body>
 </html>
