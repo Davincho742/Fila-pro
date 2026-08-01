@@ -6,18 +6,18 @@
     <title>Fila Pro</title>
     <link rel="stylesheet" href="inicioseccion.css">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
+
 </head>
 <body>
 
     <main class="foto">
-        <div class="banner" style="margin-top: 15px;">
-            <img src="Fila pro.jpg">
+        <div class="banner">
+            <img src="Fila pro.jpg" alt="Logo Fila Pro">
         </div>
 
         <div class="welcome-box">
             <p>Por favor inicia sesión con tu cuenta correspondiente 😊🍕</p>
         </div>
-        <br>
 
         <div class="contenedor-login">
             <h1 id="titulo-dinamico">Inicie Sesión</h1>
@@ -26,13 +26,11 @@
             
                 <div id="campos-credenciales">
                     <div class="grupo-entrada">
-                        <label style="display: block; text-align: left; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">NOMBRE DE USUARIO</label>
                         <input type="text" id="user" name="usuario" placeholder="Nombre de usuario">
                         <i class="fa-solid fa-user"></i>
                     </div>
 
                     <div class="grupo-entrada">
-                        <label style="display: block; text-align: left; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">CONTRASEÑA</label>
                         <input type="password" id="pass" name="contraseña" placeholder="Contraseña">
                         <i class="fa-solid fa-lock"></i>
                     </div>
@@ -40,8 +38,7 @@
 
                 <!-- SECTOR DE PERFIL -->
                 <div class="grupo-entrada">
-                    <label style="display: block; text-align: left; margin-bottom: 8px; font-weight: bold; font-size: 14px; color: #fff;">ROL</label>
-                    <select name="rol" id="select-rol" onchange="cambiarPerfil(this.value)" required style="width: 100%; padding: 12px; background-color: #1e1e1e; color: white; border: 1px solid #333; border-radius: 6px; font-size: 16px; cursor: pointer;">
+                    <select name="rol" id="select-rol" onchange="cambiarPerfil(this.value)" required>
                         <option value="" disabled selected>Seleccione su perfil</option>
                         <option value="estudiante">Estudiante</option>
                         <option value="profesor">Profesor</option>
@@ -49,17 +46,21 @@
                     </select>
                 </div>
 
-                <button type="submit" class="boton-ingresar" id="btn-enviar" style="margin-top: 15px;">Ingresar</button>
+                <button type="submit" class="boton-ingresar" id="btn-enviar">Ingresar</button>
             </form>
+
+              <p style="color: #fff; font-size: 14px;">
+                ¿no tienes cuenta? <a href="registro.php" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Registrate aqui</a>
         </div>
 
+      
         <div class="footer">
             <div class="info-footer">
                 <h3>🔎 Dirección</h3>
                 <p>Carrera 81 #43 sur 38</p>
                 <p>San Antonio De Prado, Colombia</p>
             </div>
-            <br>
+
             <div class="info-footer">
                 <h3>📞 Contacto</h3>
                 <p>3127127266</p>
@@ -73,7 +74,6 @@
     </main>
 
     <script>
-
         const USUARIO_VALIDO = 'prueba';
         const CLAVE_VALIDA   = '1234';
 
@@ -105,12 +105,18 @@
                 inputPass.placeholder = "Contraseña (Cédula)";
                 btnEnviar.innerText = "Ingresar";
             }
-    
+            else if (perfil === 'validacion') {
+                titulo.innerText = "Punto de Validación";
+                contenedorCampos.style.display = "none";
+                inputUser.required = false;
+                inputPass.required = false;
+                btnEnviar.innerText = "Acceder a Terminal";
+            }
         }
 
-        // ÚNICA FUNCIÓN DE VALIDACIÓN Y REDIRECCIÓN (todo local, sin base de datos)
+        // VALIDACIÓN Y REDIRECCIÓN
         document.getElementById('form-login').addEventListener('submit', function(e) {
-            e.preventDefault(); // Detiene el envío automático
+            e.preventDefault();
 
             if (!perfilActual) {
                 alert("Por favor selecciona un perfil antes de ingresar. ☹️");
@@ -140,7 +146,7 @@
             }
         });
 
-        // Animación de transición entre páginas
+        // Animación de transición suave entre páginas
         document.querySelectorAll('a[href]').forEach(function(link) {
             link.addEventListener('click', function(e) {
                 var href = this.getAttribute('href');
@@ -153,6 +159,5 @@
             });
         });
     </script>
-    <responsive></responsive>
 </body>
 </html>
