@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro</title>
-    <link rel="stylesheet" href="informacion.css">
+    <link rel="stylesheet" href="./public/informacion.css">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
 </head>
 <body>
@@ -19,15 +19,10 @@
     </div>
 
     <div class="navegacion-enlaces">
-         <a href="pagina estudiante.html" class="enlace-navegacion">
+         <a href="pagina estudiante.php" class="enlace-navegacion">
         <span class="material-icons-round"></span>
-        Inicio
-      </a>
-      <a href="asistencia.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-       Asistencia
-      </a>
-      <a href="iniciosesion.html" class="enlace-navegacion">
+        Inicio  
+      <a href="iniciosesion.php" class="enlace-navegacion">
         <span class="material-icons-round"></span>
         cerrar sesión
       </a>

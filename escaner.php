@@ -5,25 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro</title>
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
-    <link rel="stylesheet" href="escaner.css">
+    <link rel="stylesheet" href="./public/escaner.css">
     <!-- Librería HTML5-QRCode -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 <body>
 
-
-    <a href="punto validacion.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-       inicio
-      </a>
-      <a href="iniciosesion.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-        cerrar sesión
-      </a>
-
-    <div class="tarjeta-alerta">
-        <h1>Escáner Fila Pro</h1>
-        
         <!-- Contenedor de la cámara -->
         <div id="reader"></div>
 

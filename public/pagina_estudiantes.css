@@ -22,7 +22,6 @@ body {
     animation: slideIn 0.35s ease;
     background: linear-gradient(to bottom, #121212 50%, #0d3d0d 100%);
 }
-
 /* ====================== MENÚ SUPERIOR ====================== */
 .menu-superior {
   position: fixed;
@@ -150,6 +149,41 @@ button:hover:not(.menu) {
     margin-bottom: 30px;
 }
 
+.estado
+{
+    font-size: 24px;
+    font-weight: 800;
+    font-style: italic; 
+    color: white; 
+}
+
+.estado-box {
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+        .estado-vigente {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-left: 5px solid #28a745;
+        }
+        .estado-suspendido {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-left: 5px solid #ffc107;
+        }
+        .estado-no-agregado {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-left: 5px solid #dc3545;
+        }
 
 .info-footer {
     display: grid;
@@ -177,103 +211,3 @@ button:hover:not(.menu) {
     color: #555;
     font-size: 14px;
 } 
-
-/*calendaio*/ 
-.contenedor-calendario {
-    max-width: 600px;
-    width: 100%;
-    background-color: var(--negro-sidebar);
-    border-radius: 20px;
-    padding: 25px;
-    margin: 30px auto;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border: 1px solid #1f1f1f;
-    border-top: 4px solid var(--amarillo-pro); /* Aquí vinculo mi variable para usar el verde eléctrico como borde superior */
-}
-
-.cabecera-calendario {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #1f1f1f;
-    
-}
-
-.cabecera-calendario h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--texto-blanco); /* Con esto aseguro que las letras del mes queden en un blanco muy brillante */
-}
-
-.dias-semana-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-weight: 700;
-    color: var(--amarillo-pro);
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-}
-
-.dias-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-}
-
-.celda-dia {
-    background-color: #121212;
-    border: 1px solid #1f1f1f;
-    min-height: 65px;
-    padding: 6px;
-    border-radius: 8px;
-    position: relative;
-    color: var(--texto-blanco);
-    font-size: 0.95rem;
-    font-weight: 500;
-}
-
-/* Con esta clase destaco visualmente el día en el que estamos actualmente */
-.celda-dia.hoy {
-    border: 2px solid var(--amarillo-pro);
-    box-shadow: 0 0 10px rgba(42, 255, 122, 0.2);
-}
-
-/* Con esto pinto los fines de semana un poco más oscuros para diferenciarlos de los días escolares */
-.celda-dia.fin-semana {
-    background-color: #0b0b0b;
-    color: #555555;
-}
-
-/* En esta parte coloco la 'X' verde que se muestra en el calendario cuando el estudiante ya reclamó el almuerzo */
-.celda-dia.asistio::after {
-    content: "✕";
-    color: var(--amarillo-pro);
-    font-weight: 900;
-    font-size: 1.5rem;
-    position: absolute;
-    bottom: 4px;
-    right: 8px;
-}
-
-/* En esta parte coloco el punto rojo para marcar las faltas del estudiante si el día ya pasó y no reclamó */
-.celda-dia.falta::after {
-    content: "●";
-    color: #ff4a4a;
-    font-size: 1.2rem;
-    position: absolute;
-    bottom: 2px;
-    right: 10px;
-}
-
-.celda-vacia {
-    background: transparent;
-    border: none;
-}
-
-.celda-dia.festivo {
-    background-color: #1a1313; /* Un toque rojizo muy sutil de fondo */
-    color: #777777; /* Letras grises para que no resalten tanto */
-}

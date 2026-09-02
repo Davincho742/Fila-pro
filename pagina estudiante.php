@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro</title>
-    <link rel="stylesheet" href="pagina estudinates.css">
+    <link rel="stylesheet" href="./public/pagina_estudiantes.css">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -14,21 +14,17 @@
   <div class="contenedor-menu">
 
     <div class="logo-proyecto">
-      <span class="material-icons-round"></span>
+     
       Fila Pro
     </div>
 
     <div class="navegacion-enlaces">
-      <a href="asistencia.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-        Asistencia
-      </a>
-      <a href="informacion.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
+      <a href="informacion.php" class="enlace-navegacion">
+       
         Información
       </a>
-      <a href="iniciosesion.html" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
+      <a href="iniciosesion.php" class="enlace-navegacion">
+        
         cerrar sesión
       </a>
     </div>
@@ -37,9 +33,10 @@
     
 
     <main class="foto">
-        <div class="banner">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro">
-        </div>
+        <!-- BANNER CON TAMAÑO FORZADO DIRECTAMENTE EN EL HTML -->
+<div class="banner" style="text-align: center; margin: 20px 0;">
+    <img src="Fila pro.jpg" alt="Logo Fila Pro" style="width: 150px !important; max-width: 150px !important; height: auto !important; display: block !important; margin: 0 auto !important; object-fit: contain !important;">
+</div>
 
         <div class="caja bienvenida" style="text-align: center;">
             <p>Bienvenido a la plataforma oficial de Fila Pro.</p>

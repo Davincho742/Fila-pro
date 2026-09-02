@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro</title>
-    <link rel="stylesheet" href="inicioseccion.css">
+    <link rel="stylesheet" href="./public/iniciosesion.css">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
-
 </head>
 <body>
 
@@ -19,41 +18,38 @@
             <p>Por favor inicia sesión con tu cuenta correspondiente 😊🍕</p>
         </div>
 
-        <div class="contenedor-login">
-            <h1 id="titulo-dinamico">Inicie Sesión</h1>
+        <form id="form-login">
+            <div class="ring">
+                <i style="--clr:#006603;"></i>
+                <i style="--clr:#9F00E0;"></i>
+                <i style="--clr:#C0FF2B;"></i>
 
-            <form id="form-login">
-            
-                <div id="campos-credenciales">
-                    <div class="grupo-entrada">
-                        <input type="text" id="user" name="usuario" placeholder="Nombre de usuario">
-                        <i class="fa-solid fa-user"></i>
+                <div class="login">
+                    <h2>Iniciar Sesión</h2>
+
+                    <div class="inputBx">
+                        <select id="select-rol" onchange="cambiarPerfil(this.value)" required>
+                            <option value="" disabled selected>Seleccione su perfil</option>
+                            <option value="estudiante">Estudiante</option>
+                            <option value="validacion">Punto de Validación</option>
+                        </select>
                     </div>
 
-                    <div class="grupo-entrada">
-                        <input type="password" id="pass" name="contraseña" placeholder="Contraseña">
-                        <i class="fa-solid fa-lock"></i>
+                    <div class="inputBx" id="campo-usuario">
+                        <input type="text" id="usuario" placeholder="Usuario" required>
+                    </div>
+
+                    <div class="inputBx" id="campo-contraseña">
+                        <input type="password" id="contraseña" placeholder="Contraseña" required>
+                    </div>
+
+                    <div class="inputBx">
+                        <button type="submit" class="boton-ingresar" id="btn-enviar">Ingresar</button>
                     </div>
                 </div>
+            </div>
+        </form>
 
-                <!-- SECTOR DE PERFIL -->
-                <div class="grupo-entrada">
-                    <select name="rol" id="select-rol" onchange="cambiarPerfil(this.value)" required>
-                        <option value="" disabled selected>Seleccione su perfil</option>
-                        <option value="estudiante">Estudiante</option>
-                        <option value="profesor">Profesor</option>
-                        <option value="validacion">Punto de Validación</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="boton-ingresar" id="btn-enviar">Ingresar</button>
-            </form>
-
-              <p style="color: #fff; font-size: 14px;">
-                ¿no tienes cuenta? <a href="registro.php" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Registrate aqui</a>
-        </div>
-
-      
         <div class="footer">
             <div class="info-footer">
                 <h3>🔎 Dirección</h3>
@@ -74,79 +70,72 @@
     </main>
 
     <script>
-        const USUARIO_VALIDO = 'prueba';
-        const CLAVE_VALIDA   = '1234';
-
-        let perfilActual = '';
-
-        // Escucha los cambios del menú desplegable de ROL
+        // Muestra u oculta usuario/contraseña según el perfil elegido
         function cambiarPerfil(perfil) {
-            perfilActual = perfil;
-
-            const titulo = document.getElementById('titulo-dinamico');
-            const contenedorCampos = document.getElementById('campos-credenciales');
-            const inputUser = document.getElementById('user');
-            const inputPass = document.getElementById('pass');
+            const campoUsuario = document.getElementById('campo-usuario');
+            const campoContraseña = document.getElementById('campo-contraseña');
+            const inputUsuario = document.getElementById('usuario');
+            const inputContraseña = document.getElementById('contraseña');
             const btnEnviar = document.getElementById('btn-enviar');
 
-            if (perfil === 'estudiante') {
-                titulo.innerText = "Estudiante";
-                contenedorCampos.style.display = "block";
-                inputUser.required = true;
-                inputPass.required = true;
-                inputPass.placeholder = "Contraseña (Número de TI)";
-                btnEnviar.innerText = "Ingresar";
-            }
-            else if (perfil === 'profesor') {
-                titulo.innerText = "Profesor";
-                contenedorCampos.style.display = "block";
-                inputUser.required = true;
-                inputPass.required = true;
-                inputPass.placeholder = "Contraseña (Cédula)";
-                btnEnviar.innerText = "Ingresar";
-            }
-            else if (perfil === 'validacion') {
-                titulo.innerText = "Punto de Validación";
-                contenedorCampos.style.display = "none";
-                inputUser.required = false;
-                inputPass.required = false;
-                btnEnviar.innerText = "Acceder a Terminal";
+            if (perfil === 'validacion') {
+                campoUsuario.style.display = 'none';
+                campoContraseña.style.display = 'none';
+                inputUsuario.required = false;
+                inputContraseña.required = false;
+                btnEnviar.innerText = 'Acceder a Terminal';
+            } else {
+                campoUsuario.style.display = 'block';
+                campoContraseña.style.display = 'block';
+                inputUsuario.required = true;
+                inputContraseña.required = true;
+                btnEnviar.innerText = 'Ingresar';
             }
         }
 
-        // VALIDACIÓN Y REDIRECCIÓN
-        document.getElementById('form-login').addEventListener('submit', function(e) {
+        document.getElementById('form-login').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            if (!perfilActual) {
-                alert("Por favor selecciona un perfil antes de ingresar. ☹️");
+            const rol = document.getElementById('select-rol').value;
+
+            if (!rol) {
+                alert('Por favor selecciona un perfil antes de continuar.');
                 return;
             }
 
-            const usuarioIngresado = document.getElementById('user').value;
-            const claveIngresada = document.getElementById('pass').value;
+            // Punto de Validación: acceso directo, sin usuario/contraseña ni consulta a la BD
+            if (rol === 'validacion') {
+                window.location.href = 'punto validacion.php';
+                return;
+            }
 
-            if (perfilActual === 'estudiante') {
-                if (usuarioIngresado === USUARIO_VALIDO && claveIngresada === CLAVE_VALIDA) {
-                    window.location.href = "pagina estudiante.html";
+            // Estudiante: valida contra la base de datos
+            const usuario = document.getElementById('usuario').value.trim();
+            const contraseña = document.getElementById('contraseña').value.trim();
+
+            const datos = new FormData();
+            datos.append('usuario', usuario);
+            datos.append('contraseña', contraseña);
+            datos.append('rol', rol);
+
+            fetch('login_process.php', {
+                method: 'POST',
+                body: datos
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect;
                 } else {
-                    alert("Usuario o contraseña de Estudiante incorrectos. ☹️");
+                    alert(data.message);
                 }
-            }
-            else if (perfilActual === 'profesor') {
-                if (usuarioIngresado === USUARIO_VALIDO && claveIngresada === CLAVE_VALIDA) {
-                    window.location.href = "pagina maestro.html";
-                } else {
-                    alert("Usuario o contraseña de Profesor incorrectos. ☹️");
-                }
-            }
-            else if (perfilActual === 'validacion') {
-                // Terminal de escaneo: no pide usuario/clave, pasa directo
-                window.location.href = "punto validacion.html";
-            }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Ocurrió un error al conectar con el servidor.');
+            });
         });
 
-        // Animación de transición suave entre páginas
         document.querySelectorAll('a[href]').forEach(function(link) {
             link.addEventListener('click', function(e) {
                 var href = this.getAttribute('href');

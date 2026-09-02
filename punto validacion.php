@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro</title>
-    <link rel="stylesheet" href="punto validacion.css">
+    <link rel="stylesheet" href="./public/punto_validacion.css">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
 </head>
 <body>
@@ -19,11 +19,11 @@
 
     <div class="navegacion-enlaces">
       
-      <a href="escaner.html" class="enlace-navegacion">
+      <a href="escaner.php" class="enlace-navegacion">
         <span class="material-icons-round"></span>
        Escaner QR
       </a>
-      <a href="iniciosesion.html" class="enlace-navegacion">
+      <a href="iniciosesion.php" class="enlace-navegacion">
         <span class="material-icons-round"></span>
         cerrar sesión
       </a>
