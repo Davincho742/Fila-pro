@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode([
             'success' => false,
-            'message' => "El usuario '$usuario' no existe en la columna 'nombre_usuario' de HeidiSQL."
+            'message' => "El usuario '$usuario' no existe, $usuario deje de ser bobo...🥶"
         ]);
         exit();
     }
