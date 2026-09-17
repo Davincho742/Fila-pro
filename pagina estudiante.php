@@ -1,3 +1,10 @@
+<?php
+// Inicia la sesión PHP para obtener los datos del usuario logueado
+session_start();
+
+// Toma el usuario guardado en la sesión; si no se ha iniciado sesión, usa "Invitado"
+$nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -62,14 +69,14 @@
     </main>
 
     <script>
-        // ID o texto estático del estudiante para el QR
-        const idEstudiante = "ESTUDIANTE-PRUEBA-123";
+        // Obtiene el nombre del estudiante directamente desde la sesión PHP
+        const idEstudiante = <?php echo json_encode($nombreUsuario); ?>;
 
         window.onload = function() {
             // Elimina cualquier bloqueo almacenado en el navegador
             localStorage.clear();
             
-            // Genera el QR con el ID ilimitado
+            // Genera el QR con el nombre de usuario del estudiante
             document.getElementById("contenedor-qr").innerHTML = "";
             new QRCode(document.getElementById("contenedor-qr"), {
                 text: idEstudiante,

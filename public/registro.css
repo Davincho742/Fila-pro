@@ -1,0 +1,309 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --negro-sidebar: #0D0D0D; 
+    --verde-pro: #2aff7a;   
+    --texto-blanco: #ffffff;   
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #0D0D0D;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    color: var(--texto-blanco);
+    background: linear-gradient(to bottom, #121212 50%, #0d3d0d 100%);
+}
+
+.contenedor-principal {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+#form-registro {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Tarjeta Principal */
+.login {
+    width: 100%;
+    max-width: 480px; /* Tarjeta un poco más amplia */
+    background: rgba(13, 13, 13, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+
+/* Logo más grande y ancho */
+.banner {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.banner img {
+    width: 100%;             /* Ocupa el 100% del ancho del contenedor */
+    max-width: 320px;        /* Aumentado de 180px a 320px */
+    height: auto;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.login h2 {
+    font-size: 1.8em;
+    color: #fff;
+    text-align: center;
+}
+
+/* Campos de entrada */
+.campo {
+    width: 100%;
+}
+
+.campo input, 
+.campo select {
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    border-radius: 40px;
+    font-size: 1em;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.campo input::placeholder {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.campo select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 18px;
+}
+
+.campo select option,
+.campo select optgroup {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--verde-pro);
+    box-shadow: 0 0 10px rgba(42, 255, 122, 0.4);
+}
+
+.boton-ingresar {
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: 2px solid var(--verde-pro);
+    border-radius: 40px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-ingresar:hover {
+    background: var(--verde-pro);
+    color: #0d0d0d;
+    box-shadow: 0 0 15px rgba(42, 255, 122, 0.5);
+}
+
+.campo.redireccion {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.campo.redireccion a {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 0.9em;
+}
+
+/* ==========================================
+   SECCIÓN INFORMATIVA FILA PRO (UNIFICADA)
+   ========================================== */
+
+.seccion-info-filapro {
+    width: 100%;
+    max-width: 480px;
+    margin: 20px 0 30px 0;
+}
+
+.tarjeta-info {
+    background: rgba(13, 13, 13, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 4px solid var(--verde-pro);
+    border-radius: 20px;
+    padding: 25px;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.tarjeta-info h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--verde-pro);
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.tarjeta-info p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.tarjeta-info h4 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+    color: #ffffff;
+}
+
+.lista-beneficios {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.lista-beneficios li {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: #cccccc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lista-beneficios li strong {
+    color: #ffffff;
+}
+
+/* Sección Informativa (Acerca de Fila Pro) */
+.acerca-fila-pro {
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--negro-sidebar);
+    padding: 30px;
+    border-radius: 20px;
+    border-left: 4px solid var(--verde-pro);
+    margin: 30px 0;
+}
+
+.acerca-fila-pro h2 {
+    color: var(--verde-pro);
+    margin-bottom: 12px;
+}
+
+.acerca-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.acerca-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.acerca-card p {
+    color: #ccc;
+    font-size: 0.85rem;
+}
+
+.acerca-card ul {
+    margin-left: 18px;
+    font-size: 0.85rem;
+    color: #ccc;
+}
+
+/* Pie de página de ANCHO COMPLETO (100% de la pantalla) */
+.footer-completo {
+    width: 100%;
+    background-color: #080808;
+    border-top: 3px solid var(--verde-pro);
+    padding: 30px 20px 15px 20px;
+    margin-top: auto;
+}
+
+.contenido-footer {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.info-footer h3 {
+    color: var(--verde-pro);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.info-footer p {
+    color: #bbb;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+}
+
+.mini-footer {
+    max-width: 1000px;
+    margin: 25px auto 0 auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem;
+    text-align: center;
+    color: #888;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .contenido-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
