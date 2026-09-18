@@ -52,12 +52,12 @@ $nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado'
 
         <div class="footer">
             <div class="info-footer">
-                <h3>🔎 Dirección</h3>
+                <h3>Dirección</h3>
                 <p>Carrera 81 #43 sur 38</p>
                 <p>San Antonio De Prado, Colombia</p>
             </div>
             <div class="info-footer">
-                <h3>📞 Contacto</h3>
+                <h3>Contacto</h3>
                 <p>3127127266</p>
                 <p>mjb@iemanueljbetancur.edu.co</p>
             </div>

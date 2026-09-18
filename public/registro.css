@@ -40,13 +40,13 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 20px 0 10px 0;
 }
 
-/* Tarjeta Principal */
+/* Tarjeta Principal de Login */
 .login {
     width: 100%;
-    max-width: 480px; /* Tarjeta un poco más amplia */
+    max-width: 480px;
     background: rgba(13, 13, 13, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
@@ -60,7 +60,7 @@ body {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
 
-/* Logo más grande y ancho */
+/* Banner e Imagen */
 .banner {
     width: 100%;
     display: flex;
@@ -68,8 +68,8 @@ body {
 }
 
 .banner img {
-    width: 100%;             /* Ocupa el 100% del ancho del contenedor */
-    max-width: 320px;        /* Aumentado de 180px a 320px */
+    width: 100%;
+    max-width: 320px;
     height: auto;
     border-radius: 12px;
     object-fit: contain;
@@ -156,154 +156,144 @@ body {
 }
 
 /* ==========================================
-   SECCIÓN INFORMATIVA FILA PRO (UNIFICADA)
+   SECCIÓN INFORMATIVA FILA PRO (MODERNA & SIN EMOJIS)
    ========================================== */
 
 .seccion-info-filapro {
     width: 100%;
     max-width: 480px;
-    margin: 20px 0 30px 0;
+    margin: 20px 0 35px 0;
 }
 
 .tarjeta-info {
-    background: rgba(13, 13, 13, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-left: 4px solid var(--verde-pro);
-    border-radius: 20px;
-    padding: 25px;
+    position: relative;
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 30px 25px;
     color: #ffffff;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    overflow: hidden;
+}
+
+/* Resplandor superior en verde */
+.tarjeta-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--verde-pro), transparent);
+}
+
+/* Encabezado */
+.encabezado-info {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.badge-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--verde-pro);
+    text-transform: uppercase;
+    background: rgba(42, 255, 122, 0.08);
+    border: 1px solid rgba(42, 255, 122, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
 }
 
 .tarjeta-info h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    color: var(--verde-pro);
-    font-size: 1.4rem;
-    text-align: center;
-}
-
-.tarjeta-info p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: #e0e0e0;
-    margin-bottom: 15px;
-}
-
-.tarjeta-info h4 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 1.05rem;
+    font-size: 1.55rem;
     color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
 }
 
-.lista-beneficios {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
+.descripcion-proyecto {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #a0a0a0;
 }
 
-.lista-beneficios li {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 10px;
-    color: #cccccc;
+/* Beneficios en lista estructurada */
+.grid-beneficios {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item-beneficio {
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 14px 18px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.indicador-glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+.item-beneficio:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(42, 255, 122, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.item-beneficio:hover .indicador-glow {
+    background: var(--verde-pro);
+    box-shadow: 0 0 10px var(--verde-pro);
+}
+
+.contenido-beneficio {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
 }
 
-.lista-beneficios li strong {
-    color: #ffffff;
-}
-
-/* Sección Informativa (Acerca de Fila Pro) */
-.acerca-fila-pro {
-    width: 100%;
-    max-width: 800px;
-    background-color: var(--negro-sidebar);
-    padding: 30px;
-    border-radius: 20px;
-    border-left: 4px solid var(--verde-pro);
-    margin: 30px 0;
-}
-
-.acerca-fila-pro h2 {
-    color: var(--verde-pro);
-    margin-bottom: 12px;
-}
-
-.acerca-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.acerca-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 12px;
-}
-
-.acerca-card p {
-    color: #ccc;
-    font-size: 0.85rem;
-}
-
-.acerca-card ul {
-    margin-left: 18px;
-    font-size: 0.85rem;
-    color: #ccc;
-}
-
-/* Pie de página de ANCHO COMPLETO (100% de la pantalla) */
-.footer-completo {
-    width: 100%;
-    background-color: #080808;
-    border-top: 3px solid var(--verde-pro);
-    padding: 30px 20px 15px 20px;
-    margin-top: auto;
-}
-
-.contenido-footer {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    gap: 30px;
-    flex-wrap: wrap;
-}
-
-.info-footer h3 {
-    color: var(--verde-pro);
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-}
-
-.info-footer p {
-    color: #bbb;
+.num-beneficio {
     font-size: 0.9rem;
-    margin-bottom: 4px;
+    font-weight: 800;
+    color: var(--verde-pro);
+    background: rgba(42, 255, 122, 0.1);
+    border: 1px solid rgba(42, 255, 122, 0.2);
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.mini-footer {
-    max-width: 1000px;
-    margin: 25px auto 0 auto;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.8rem;
-    text-align: center;
-    color: #888;
+.item-beneficio h5 {
+    margin: 0 0 2px 0;
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 600;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    .contenido-footer {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+.item-beneficio p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #888888;
+    line-height: 1.35;
 }

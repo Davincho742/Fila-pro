@@ -6,6 +6,8 @@
     <title>Fila Pro - Inicio de Sesión</title>
     <link rel="stylesheet" href="./PUBLIC/iniciosesion.css">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -13,22 +15,22 @@
 
         <form id="form-login">
             <div class="login">
-                <!-- Logo integrado dentro del bloque de inicio de sesión -->
+                <!-- Banner / Logo -->
                 <div class="banner">
                     <img src="Fila pro.jpg" alt="Logo Fila Pro">
                 </div>
 
                 <h2>Inicio de sesión</h2>
 
+                <!-- Selector simplificado: Solo para alternar a Punto de Validación si es necesario -->
                 <div class="campo">
-                    <select id="select-rol" required>
-                        <option value="" disabled selected>Seleccione su perfil</option>
-                        <option value="estudiante">Estudiante</option>
-                        <option value="profesor">Profesor</option>
+                    <select id="select-modo">
+                        <option value="usuario" selected>/ Docente / Estudiante</option>
                         <option value="validacion">Punto de Validación</option>
                     </select>
                 </div>
 
+                <!-- Campos normales de Ingreso -->
                 <div class="campo" id="campo-usuario">
                     <input type="text" id="usuario" placeholder="Usuario" required>
                 </div>
@@ -37,11 +39,13 @@
                     <input type="password" id="contraseña" placeholder="Documento de Identidad" required>
                 </div>
 
+                <!-- Botón de Envío -->
                 <div class="campo">
                     <button type="submit" class="boton-ingresar" id="btn-enviar">Ingresar</button>
                 </div>
                 
-                <div class="campo" style="margin-top: 15px; text-align: center;">
+                <!-- Enlace de Registro -->
+                <div class="campo" id="campo-registro" style="margin-top: 5px; text-align: center;">
                     <a href="registro.php" class="enlace-animado" style="color: #fff; text-decoration: underline; font-size: 0.9em;">
                         ¿No tienes cuenta? Regístrate aquí
                     </a>
@@ -49,28 +53,55 @@
             </div>
         </form>
 
-    
     </main>
 
+    <footer class="footer-completo">
+        <div class="contenido-footer">
+            <div class="info-footer">
+                <h3>Fila Pro</h3>
+                <p>Sistema de gestión y control alimentario escolar.</p>
+            </div>
+            <div class="info-footer">
+                <h3>Contacto</h3>
+                <p>Soporte institucional</p>
+                <p>Atención: Horario Escolar</p>
+            </div>
+        </div>
+        <div class="mini-footer">
+            <p>&copy; 2026 Fila Pro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
     <script>
-      const selectRol = document.getElementById('select-rol');
+      const selectModo = document.getElementById('select-modo');
       const inputUsuario = document.getElementById('usuario');
       const inputContrasena = document.getElementById('contraseña');
       const campoUsuario = document.getElementById('campo-usuario');
       const campoContrasena = document.getElementById('campo-contraseña');
+      const campoRegistro = document.getElementById('campo-registro');
 
-      // Detectar cambio de perfil para quitar o requerir los campos de texto
-      selectRol.addEventListener('change', function () {
+      const SwalEstilo = Swal.mixin({
+          background: '#121212',
+          color: '#ffffff',
+          confirmButtonColor: '#2aff7a',
+          customClass: {
+              popup: 'alerta-filapro',
+              confirmButton: 'btn-alerta-confirmar'
+          }
+      });
+
+      // Alternar vista si selecciona Punto de Validación
+      selectModo.addEventListener('change', function () {
           if (this.value === 'validacion') {
-              // Ocultar campos y quitar obligatoriedad
               campoUsuario.style.display = 'none';
               campoContrasena.style.display = 'none';
+              campoRegistro.style.display = 'none';
               inputUsuario.removeAttribute('required');
               inputContrasena.removeAttribute('required');
           } else {
-              // Mostrar campos y hacerlos obligatorios
               campoUsuario.style.display = 'block';
               campoContrasena.style.display = 'block';
+              campoRegistro.style.display = 'block';
               inputUsuario.setAttribute('required', 'required');
               inputContrasena.setAttribute('required', 'required');
           }
@@ -79,22 +110,9 @@
       document.getElementById('form-login').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const rol = selectRol.value;
-
-        if (!rol) {
-            alert('Por favor selecciona un perfil antes de continuar.');
-            return;
-        }
-
-        // Si es Punto de Validación, entra directo sin pedir datos
-        if (rol === 'validacion') {
+        // Si es Punto de Validación, entra directamente
+        if (selectModo.value === 'validacion') {
             window.location.href = 'punto validacion.php';
-            return;
-        }
-
-        // Si es Profesor, entra directo
-        if (rol === 'profesor') {
-            window.location.href = 'profesor.php';
             return;
         }
 
@@ -104,7 +122,6 @@
         const datos = new FormData();
         datos.append('usuario', usuario);
         datos.append('contraseña', contraseña);
-        datos.append('rol', rol);
 
         fetch('login_process.php', {
             method: 'POST',
@@ -113,23 +130,40 @@
         .then(async res => {
             const texto = await res.text();
             if (!texto.trim()) {
-                throw new Error('El archivo login_process.php devolvió una respuesta totalmente vacía. Revisa que el archivo exista en la misma carpeta.');
+                throw new Error('El servidor devolvió una respuesta vacía.');
             }
             try {
                 return JSON.parse(texto);
             } catch (e) {
-                throw new Error('Respuesta del servidor no válida: ' + texto.substring(0, 150));
+                throw new Error('Respuesta del servidor no válida.');
             }
         })
         .then(data => {
             if (data.success) {
-                window.location.href = data.redirect;
+                SwalEstilo.fire({
+                    icon: 'success',
+                    title: '¡Bienvenido!',
+                    text: 'Inicio de sesión exitoso. Redirigiendo...',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    // La base de datos determina a dónde redirigir (profesor o estudiante)
+                    window.location.href = data.redirect;
+                });
             } else {
-                alert(data.message);
+                SwalEstilo.fire({
+                    icon: 'error',
+                    title: 'Acceso Denegado',
+                    text: data.message || 'Usuario o contraseña incorrectos.'
+                });
             }
         })
         .catch(err => {
-            alert(err.message);
+            SwalEstilo.fire({
+                icon: 'error',
+                title: 'Error de Conexión',
+                text: err.message
+            });
         });
     });
     </script>

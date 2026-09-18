@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro - Registro</title>
-    <link rel="stylesheet" href="public/registro.css?v=3">
+    <link rel="stylesheet" href="public/registro.css?v=4">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -63,20 +63,55 @@
             </div>
         </form>
 
-        <!-- SECCIÓN INFORMATIVA: ¿QUÉ ES FILA PRO? -->
+        <!-- SECCIÓN INFORMATIVA REDISEÑADA (MODERNA Y SIN EMOJIS) -->
         <section class="seccion-info-filapro">
             <div class="tarjeta-info">
-                <h3>¿Qué es Fila Pro?</h3>
-                <p>
-                    <strong>Fila Pro</strong> es un sistema inteligente diseñado para optimizar y agilizar la entrega de almuerzos en el restaurante escolar de nuestra institución.
-                </p>
                 
-                <h4>Beneficios principales:</h4>
-                <ul class="lista-beneficios">
-                    <li>⚡ <strong>Acceso Rápido:</strong> Tu código QR personal sustituye las planillas manuales.</li>
-                    <li>⏱️ <strong>Ahorro de Tiempo:</strong> Filas fluidas para aprovechar mejor tu descanso.</li>
-                    <li>🔒 <strong>Mayor Control:</strong> Registro seguro e individual de cada ración.</li>
-                </ul>
+                <header class="encabezado-info">
+                    <span class="badge-tag">RESTAURANTE ESCOLAR</span>
+                    <h3>¿Qué es Fila Pro?</h3>
+                    <p class="descripcion-proyecto">
+                        Un sistema inteligente diseñado para optimizar, agilizar y transformar la entrega de almuerzos en nuestra institución.
+                    </p>
+                </header>
+
+                <div class="grid-beneficios">
+                    
+                    <div class="item-beneficio">
+                        <div class="indicador-glow"></div>
+                        <div class="contenido-beneficio">
+                            <span class="num-beneficio">01</span>
+                            <div>
+                                <h5>Acceso Rápido</h5>
+                                <p>Tu código QR personal sustituye las planillas manuales de forma instantánea.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item-beneficio">
+                        <div class="indicador-glow"></div>
+                        <div class="contenido-beneficio">
+                            <span class="num-beneficio">02</span>
+                            <div>
+                                <h5>Ahorro de Tiempo</h5>
+                                <p>Filas fluidas y continuas para que aproveches al máximo tu descanso.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item-beneficio">
+                        <div class="indicador-glow"></div>
+                        <div class="contenido-beneficio">
+                            <span class="num-beneficio">03</span>
+                            <div>
+                                <h5>Mayor Control</h5>
+                                <p>Registro individual, preciso y completamente seguro de cada ración.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </section>
 
@@ -134,7 +169,6 @@
 
                     if (dataLogin.success) {
                         setTimeout(() => {
-                            // Ruta corregida a 'pagina estudiante.php' (con espacio)
                             window.location.href = dataLogin.redirect || 'pagina estudiante.php';
                         }, 1800);
                     } else {

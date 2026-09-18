@@ -51,19 +51,21 @@ $result = $stmt->get_result();
 
 if ($row = $result->fetch_assoc()) {
     $clave_db = $row['Contraseña'];
-    $rol_db   = strtolower(trim($row['ROL'] ?? 'estudiante'));
+    
+    // Convertir el rol obtenido de la base de datos a minúsculas
+    $rol_db = strtolower(trim($row['ROL'] ?? 'estudiante'));
 
     // Validar contraseña
     if (password_verify($password, $clave_db) || $password === $clave_db) {
 
-        // Variables de sesión
+        // Guardar sesión
         $_SESSION['usuario']        = $row['Nombre_usuario'];
         $_SESSION['nombre_usuario'] = $row['Nombre_usuario'];
         $_SESSION['ROL']            = $rol_db;
         $_SESSION['rol']            = $rol_db;
 
-        // REDIRECCIÓN EXACTA CON ESPACIO
-        $destino = 'pagina estudiante.php';
+        // LA BASE DE DATOS DECIDE LA REDIRECCIÓN
+        $destino = 'pagina estudiante.php'; // Por defecto si el rol es estudiante
 
         if ($rol_db === 'profesor' || $rol_db === 'docente') {
             $destino = 'profesor.php';
