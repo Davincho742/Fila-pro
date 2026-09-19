@@ -1,30 +1,34 @@
 <?php
+ini_set('display_errors', 0);
 header('Content-Type: application/json; charset=utf-8');
-require_once 'conexion2.php';
+
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+
+$connFilaPro = new mysqli($host, $user, $pass, 'fila pro');
+$connSuspencion = new mysqli($host, $user, $pass, 'suspencion');
 
 $input = json_decode(file_get_contents('php://input'), true);
-$id = $input['id'] ?? '';
+$usuarioId = trim($input['id'] ?? $input['usuario'] ?? $input['Nombre_usuario'] ?? '');
 
-if (empty($id)) {
-    echo json_encode(['exito' => false, 'mensaje' => 'ID de usuario no proporcionado.']);
+if (empty($usuarioId)) {
+    echo json_encode(['exito' => false, 'mensaje' => 'ID no proporcionado.']);
     exit();
 }
 
-// Eliminar el usuario por ID o por Nombre_usuario
-$sql = "DELETE FROM usuarios WHERE id = ? OR Nombre_usuario = ?";
-$stmt = $conexion->prepare($sql);
+// Limpiar suspensión
+$stmt1 = $connSuspencion->prepare("DELETE FROM suspencion WHERE usuario_id = ?");
+$stmt1->bind_param("s", $usuarioId);
+$stmt1->execute();
 
-if ($stmt) {
-    $stmt->bind_param("ss", $id, $id);
-    if ($stmt->execute()) {
-        echo json_encode(['exito' => true, 'mensaje' => 'Estudiante eliminado con éxito de la base de datos.']);
-    } else {
-        echo json_encode(['exito' => false, 'mensaje' => 'Error SQL: ' . $stmt->error]);
-    }
-    $stmt->close();
+// Eliminar usuario
+$stmt2 = $connFilaPro->prepare("DELETE FROM usuarios WHERE Nombre_usuario = ?");
+$stmt2->bind_param("s", $usuarioId);
+
+if ($stmt2->execute()) {
+    echo json_encode(['exito' => true, 'mensaje' => 'Usuario eliminado correctamente.']);
 } else {
-    echo json_encode(['exito' => false, 'mensaje' => 'Error al preparar la eliminación.']);
+    echo json_encode(['exito' => false, 'mensaje' => 'Error: ' . $connFilaPro->error]);
 }
-
-$conexion->close();
 ?>

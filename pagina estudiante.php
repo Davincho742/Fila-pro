@@ -1,8 +1,6 @@
 <?php
-// Inicia la sesión PHP para obtener los datos del usuario logueado
+header("ngrok-skip-browser-warning: true");
 session_start();
-
-// Toma el usuario guardado en la sesión; si no se ha iniciado sesión, usa "Invitado"
 $nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado';
 ?>
 <!DOCTYPE html>
@@ -28,7 +26,6 @@ $nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado'
     </nav>
     
     <main class="foto">
-        <!-- BANNER LOGO -->
         <div class="banner" style="text-align: center; margin: 20px 0;">
             <img src="Fila pro.jpg" alt="Logo Fila Pro" style="width: 150px !important; max-width: 150px !important; height: auto !important; display: block !important; margin: 0 auto !important; object-fit: contain !important;">
         </div>
@@ -37,20 +34,19 @@ $nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado'
             <p>Bienvenido a la plataforma oficial de Fila Pro.</p>
         </div>
 
-        <!-- TARJETA PRINCIPAL -->
         <div id="tarjeta-validacion" style="margin: 40px auto; max-width: 750px; background-color: #0D0D0D; padding: 30px; border-radius: 20px; border: 1px solid #2aff7a; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            
             <div style="text-align: center; width: 100%;">
                 <p id="subtitulo-estado" style="margin-bottom: 25px; color: #2aff7a; font-size: 1.1rem; font-weight: bold;">CÓDIGO QR ACTIVO (SIN LÍMITE DE ESCANEO)</p>
-                
                 <div style="background: white; padding: 15px; width: 180px; height: 180px; margin: 0 auto; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
                     <div id="contenedor-qr"></div>
                 </div>
             </div>
-
         </div>
+    </main>
 
-        <div class="footer">
+    <!-- UN SOLO FOOTER COMPLETO -->
+    <footer class="footer-global">
+        <div class="contenido-footer">
             <div class="info-footer">
                 <h3>Dirección</h3>
                 <p>Carrera 81 #43 sur 38</p>
@@ -63,20 +59,17 @@ $nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado'
             </div>
         </div>
 
-        <footer class="mini-footer" style="text-align: center; margin-top: 30px;">
+        <div class="linea-divisora"></div>
+
+        <div class="mini-footer">
             Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
-        </footer>
-    </main>
+        </div>
+    </footer>
 
     <script>
-        // Obtiene el nombre del estudiante directamente desde la sesión PHP
         const idEstudiante = <?php echo json_encode($nombreUsuario); ?>;
-
         window.onload = function() {
-            // Elimina cualquier bloqueo almacenado en el navegador
             localStorage.clear();
-            
-            // Genera el QR con el nombre de usuario del estudiante
             document.getElementById("contenedor-qr").innerHTML = "";
             new QRCode(document.getElementById("contenedor-qr"), {
                 text: idEstudiante,

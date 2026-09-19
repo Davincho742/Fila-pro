@@ -3,62 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fila Pro</title>
-    <link rel="stylesheet" href="./public/punto_validacion.css">
+    <title>Fila Pro - Punto de Validación</title>
+    <link rel="stylesheet" href="./public/punto_validacion.css?v=1.1">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
 </head>
 <body>
         
-   <nav class="menu-superior">
-  <div class="contenedor-menu">
+    <nav class="menu-superior">
+        <div class="contenedor-menu">
+            <div class="logo-proyecto">
+                <span class="material-icons-round"></span>
+                Fila Pro
+            </div>
 
-    <div class="logo-proyecto">
-      <span class="material-icons-round"></span>
-      Fila Pro
-    </div>
-
-    <div class="navegacion-enlaces">
-      
-      <a href="escaner.php" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-       Escaner QR
-      </a>
-      <a href="iniciosesion.php" class="enlace-navegacion">
-        <span class="material-icons-round"></span>
-        cerrar sesión
-      </a>
-    </div>
-  </div>
-</nav>
+            <div class="navegacion-enlaces">
+                <a href="escaner.php" class="enlace-navegacion">
+                    <span class="material-icons-round"></span>
+                    Escaner QR
+                </a>
+                <a href="iniciosesion.php" class="enlace-navegacion">
+                    <span class="material-icons-round"></span>
+                    Cerrar sesión
+                </a>
+            </div>
+        </div>
+    </nav>
     
-
     <main class="foto">
         <div class="banner">
             <img src="Fila pro.jpg" alt="Logo Fila Pro">
         </div>
 
-        <div class="caja bienvenida" style="text-align: center;">
+        <div class="caja bienvenida">
             <p>Bienvenido a la plataforma oficial de Fila Pro.</p>
         </div>
+    </main>
 
-        </div>
-        <div class="footer">
+    <!-- PIE DE PÁGINA UNIFICADO (FUERA DEL MAIN) -->
+    <footer class="footer-global">
+        <div class="contenido-footer">
             <div class="info-footer">
-                <h3>🔎 Dirección</h3>
+                <h3>Dirección</h3>
                 <p>Carrera 81 #43 sur 38</p>
                 <p>San Antonio De Prado, Colombia</p>
             </div>
             <div class="info-footer">
-                <h3>📞 Contacto</h3>
+                <h3>Contacto</h3>
                 <p>3127127266</p>
                 <p>mjb@iemanueljbetancur.edu.co</p>
             </div>
         </div>
 
-        <footer class="mini-footer" style="text-align: center; margin-top: 30px;">
-            Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
-        </footer>
-    </main>
+        <div class="linea-divisora"></div>
 
-     </body>
+        <div class="mini-footer">
+            Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
+        </div>
+    </footer>
+
+</body>
 </html>

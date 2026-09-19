@@ -36,7 +36,7 @@ if (empty($usuario) || empty($password)) {
     exit();
 }
 
-// Consultar usuario en MySQL
+// Consultar usuario en MySQL (Base de Datos: fila pro)
 $sql = "SELECT Nombre_usuario, Contraseña, ROL FROM usuarios WHERE Nombre_usuario = ?";
 $stmt = $conexion->prepare($sql);
 
@@ -51,12 +51,37 @@ $result = $stmt->get_result();
 
 if ($row = $result->fetch_assoc()) {
     $clave_db = $row['Contraseña'];
-    
-    // Convertir el rol obtenido de la base de datos a minúsculas
     $rol_db = strtolower(trim($row['ROL'] ?? 'estudiante'));
 
     // Validar contraseña
     if (password_verify($password, $clave_db) || $password === $clave_db) {
+
+        // ====================== VERIFICACIÓN DE SUSPENSIÓN ======================
+        $conexion_suspencion = new mysqli("localhost", "root", "", "suspencion");
+
+        if (!$conexion_suspencion->connect_error) {
+            $sql_susp = "SELECT id FROM suspencion WHERE usuario_id = ? AND estado = 'suspendido' LIMIT 1";
+            $stmt_susp = $conexion_suspencion->prepare($sql_susp);
+
+            if ($stmt_susp) {
+                $stmt_susp->bind_param("s", $row['Nombre_usuario']);
+                $stmt_susp->execute();
+                $res_susp = $stmt_susp->get_result();
+
+                if ($res_susp->num_rows > 0) {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => '❌ Tu cuenta ha sido suspendida. No puedes ingresar al sistema.'
+                    ]);
+                    $stmt_susp->close();
+                    $conexion_suspencion->close();
+                    exit();
+                }
+                $stmt_susp->close();
+            }
+            $conexion_suspencion->close();
+        }
+        // =======================================================================
 
         // Guardar sesión
         $_SESSION['usuario']        = $row['Nombre_usuario'];
@@ -64,8 +89,8 @@ if ($row = $result->fetch_assoc()) {
         $_SESSION['ROL']            = $rol_db;
         $_SESSION['rol']            = $rol_db;
 
-        // LA BASE DE DATOS DECIDE LA REDIRECCIÓN
-        $destino = 'pagina estudiante.php'; // Por defecto si el rol es estudiante
+        // Determinar destino según el rol
+        $destino = 'pagina estudiante.php';
 
         if ($rol_db === 'profesor' || $rol_db === 'docente') {
             $destino = 'profesor.php';

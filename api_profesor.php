@@ -1,89 +1,128 @@
 <?php
-// Habilitar visualización de errores para diagnóstico
-header('Content-Type: application/json; charset=utf-8');
+// Desactivar impresión de errores de texto para no romper la respuesta JSON
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
-try {
-    if (!file_exists('conexion2.php')) {
-        throw new Exception("El archivo conexion2.php no existe.");
-    }
-    require_once 'conexion2.php';
+header('Content-Type: application/json; charset=utf-8');
 
-    $accion = $_GET['accion'] ?? '';
+$host = 'localhost';
+$user = 'root';
+$pass = '';
 
-    if ($accion === 'buscar') {
-        $q = trim($_GET['q'] ?? '');
+// Conexiones a las bases de datos
+$connFilaPro = new mysqli($host, $user, $pass, 'fila pro');
+$connSuspencion = new mysqli($host, $user, $pass, 'suspencion');
 
-        if (empty($q)) {
-            echo json_encode(['exito' => false, 'mensaje' => 'Ingresa un parámetro de búsqueda.']);
-            exit();
-        }
-
-        $paramBusqueda = "%" . $q . "%";
-
-        // Consulta adaptada: Busca en la tabla 'usuarios' donde el ROL sea estudiante
-        $sql = "SELECT * FROM usuarios WHERE (Nombre_usuario LIKE ? OR Contraseña = ?) AND LOWER(ROL) = 'estudiante' LIMIT 1";
-        
-        $stmt = $conexion->prepare($sql);
-        if (!$stmt) {
-            // Si falla prepare, intentamos una búsqueda más directa por si 'ROL' o 'Contraseña' cambian de nombre
-            $sqlFailsafe = "SELECT * FROM usuarios WHERE Nombre_usuario LIKE ? LIMIT 1";
-            $stmt = $conexion->prepare($sqlFailsafe);
-            if (!$stmt) {
-                throw new Exception("Error en la consulta SQL: " . $conexion->error);
-            }
-            $stmt->bind_param("s", $paramBusqueda);
-        } else {
-            $stmt->bind_param("ss", $paramBusqueda, $q);
-        }
-
-        $stmt->execute();
-        $res = $stmt->get_result();
-
-        if ($row = $res->fetch_assoc()) {
-            // Normalizar nombres de llaves para JavaScript
-            $estudiante = [
-                'id' => $row['id'] ?? $row['ID'] ?? 0,
-                'usuario' => $row['Nombre_usuario'] ?? $row['usuario'] ?? $row['nombre'] ?? 'Sin Nombre',
-                'grado' => $row['grado'] ?? $row['Grado'] ?? 'N/A',
-                'estado' => $row['estado'] ?? 'activo',
-                'diasReclamados' => []
-            ];
-
-            echo json_encode(['exito' => true, 'estudiante' => $estudiante]);
-        } else {
-            echo json_encode(['exito' => false, 'mensaje' => 'No se encontró ningún estudiante registrado con esa información.']);
-        }
-        exit();
-    }
-
-    if ($accion === 'cambiar_estado') {
-        $input = json_decode(file_get_contents('php://input'), true);
-        $id = $input['id'] ?? '';
-        $nuevoEstado = $input['nuevo_estado'] ?? 'activo';
-
-        $sql = "UPDATE usuarios SET estado = ? WHERE id = ? OR Nombre_usuario = ?";
-        $stmt = $conexion->prepare($sql);
-        
-        if ($stmt) {
-            $stmt->bind_param("sss", $nuevoEstado, $id, $id);
-            $stmt->execute();
-            echo json_encode(['exito' => true, 'nuevo_estado' => $nuevoEstado]);
-        } else {
-            echo json_encode(['exito' => false, 'mensaje' => 'No se pudo actualizar la tabla usuarios.']);
-        }
-        exit();
-    }
-
-    echo json_encode(['exito' => false, 'mensaje' => 'Acción no válida']);
-
-} catch (Throwable $e) {
-    // Retorna el error exacto en formato JSON para no romper el JS
-    http_response_code(200); 
-    echo json_encode([
-        'exito' => false, 
-        'mensaje' => 'Error interno en el servidor: ' . $e->getMessage()
-    ]);
+if ($connFilaPro->connect_error || $connSuspencion->connect_error) {
+    echo json_encode(['exito' => false, 'mensaje' => 'Error de conexión a la base de datos.']);
+    exit();
 }
+
+$accion = $_GET['accion'] ?? '';
+
+// 1. BUSCAR ESTUDIANTE
+if ($accion === 'buscar') {
+    $q = trim($_GET['q'] ?? '');
+
+    if (empty($q)) {
+        echo json_encode(['exito' => false, 'mensaje' => 'Ingresa el usuario a buscar.']);
+        exit();
+    }
+
+    $sql = "SELECT Nombre_usuario FROM usuarios WHERE Nombre_usuario = ? LIMIT 1";
+    $stmt = $connFilaPro->prepare($sql);
+    $stmt->bind_param("s", $q);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        $usuarioEstudiante = $row['Nombre_usuario'];
+
+        $sqlSusp = "SELECT estado FROM suspencion WHERE usuario_id = ? AND estado = 'suspendido' LIMIT 1";
+        $stmtSusp = $connSuspencion->prepare($sqlSusp);
+        $stmtSusp->bind_param("s", $usuarioEstudiante);
+        $stmtSusp->execute();
+        $resSusp = $stmtSusp->get_result();
+
+        $estadoActual = ($resSusp->num_rows > 0) ? 'suspendido' : 'activo';
+
+        echo json_encode([
+            'exito' => true,
+            'estudiante' => [
+                'id' => $usuarioEstudiante,
+                'usuario' => $usuarioEstudiante,
+                'nombre' => $usuarioEstudiante,
+                'estado' => $estadoActual
+            ]
+        ]);
+        $stmtSusp->close();
+    } else {
+        echo json_encode(['exito' => false, 'mensaje' => 'Estudiante no encontrado.']);
+    }
+    $stmt->close();
+    exit();
+}
+
+// 2. CAMBIAR ESTADO DE SUSPENSIÓN
+if ($accion === 'cambiar_estado') {
+    $input = json_decode(file_get_contents('php://input'), true);
+    $usuarioId = trim($input['usuario'] ?? $input['id'] ?? '');
+    $nuevoEstado = trim($input['nuevo_estado'] ?? 'suspendido');
+
+    if ($nuevoEstado === 'suspendido') {
+        $stmtDel = $connSuspencion->prepare("DELETE FROM suspencion WHERE usuario_id = ?");
+        $stmtDel->bind_param("s", $usuarioId);
+        $stmtDel->execute();
+        $stmtDel->close();
+
+        $stmtIns = $connSuspencion->prepare("INSERT INTO suspencion (usuario_id, estado, motivo, fecha) VALUES (?, 'suspendido', 'Suspendido por profesor', NOW())");
+        $stmtIns->bind_param("s", $usuarioId);
+        $stmtIns->execute();
+        $stmtIns->close();
+
+        echo json_encode(['exito' => true, 'nuevo_estado' => 'suspendido']);
+    } else {
+        $stmtDel = $connSuspencion->prepare("DELETE FROM suspencion WHERE usuario_id = ?");
+        $stmtDel->bind_param("s", $usuarioId);
+        $stmtDel->execute();
+        $stmtDel->close();
+
+        echo json_encode(['exito' => true, 'nuevo_estado' => 'activo']);
+    }
+    exit();
+}
+
+// 3. ELIMINAR CUENTA (CAPTURA TODAS LAS VARIANTES DE ACCIONES)
+if ($accion === 'eliminar' || $accion === 'eliminar_cuenta' || $accion === 'eliminar_usuario') {
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    // Captura el identificador del usuario sin importar qué nombre le dé el JS
+    $usuarioId = trim($input['id'] ?? $input['usuario'] ?? $input['Nombre_usuario'] ?? '');
+
+    if (empty($usuarioId)) {
+        echo json_encode(['exito' => false, 'mensaje' => 'Usuario no proporcionado.']);
+        exit();
+    }
+
+    // Paso A: Eliminar de la base de datos 'suspencion'
+    $stmt1 = $connSuspencion->prepare("DELETE FROM suspencion WHERE usuario_id = ?");
+    $stmt1->bind_param("s", $usuarioId);
+    $stmt1->execute();
+    $stmt1->close();
+
+    // Paso B: Eliminar de la base de datos 'fila pro'
+    $stmt2 = $connFilaPro->prepare("DELETE FROM usuarios WHERE Nombre_usuario = ?");
+    $stmt2->bind_param("s", $usuarioId);
+
+    if ($stmt2->execute()) {
+        echo json_encode(['exito' => true, 'mensaje' => 'Estudiante eliminado con éxito.']);
+    } else {
+        echo json_encode(['exito' => false, 'mensaje' => 'Error SQL al eliminar: ' . $connFilaPro->error]);
+    }
+    $stmt2->close();
+    exit();
+}
+
+$connFilaPro->close();
+$connSuspencion->close();
 ?>

@@ -1,112 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fila Pro - Panel Profesor</title>
-    <link rel="stylesheet" href="./public/profesor.css">
+    <link rel="stylesheet" href="./public/profesor.css?v=1.2">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
-    
-    <style>
-        /* Toast para notificaciones */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 10000;
-        }
-        .toast {
-            background: #2a2a2a;
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            border-left: 5px solid #ffca28;
-            font-size: 0.9rem;
-        }
-        .toast.success { border-left-color: #28a745; }
-        .toast.error { border-left-color: #d9534f; }
-        .toast.warning { border-left-color: #ffc107; }
-
-        /* Estilo para botón de confirmación activa */
-        .btn-confirmar-accion {
-            background-color: #d9534f !important;
-            color: #fff !important;
-            font-weight: bold;
-            animation: pulso 1s infinite alternate;
-        }
-
-        @keyframes pulso {
-            from { opacity: 1; }
-            to { opacity: 0.8; }
-        }
-
-        /* MODAL DE CONFIRMACIÓN PERSONALIZADO */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 10001;
-        }
-
-        .modal-box {
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            color: #fff;
-            text-align: center;
-            animation: modalEntrada 0.2s ease-out;
-        }
-
-        @keyframes modalEntrada {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-box h4 {
-            margin: 0 0 10px 0;
-            font-size: 1.2rem;
-            color: #ffca28;
-        }
-
-        .modal-box p {
-            margin: 0 0 20px 0;
-            color: #ccc;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .modal-acciones {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .btn-modal {
-            padding: 10px 18px;
-            border-radius: 6px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn-modal:hover { opacity: 0.85; }
-        .btn-modal-confirmar { background: #d9534f; color: #fff; }
-        .btn-modal-cancelar { background: #444; color: #fff; }
-    </style>
 </head>
 <body>
         
@@ -131,8 +30,8 @@
 
         <!-- MÓDULO BÚSQUEDA DEL PROFESOR -->
         <div class="panel-profesor">
-            <h3 style="color: #fff; margin-bottom: 5px;">Buscar Estudiante</h3>
-            <p style="color: #aaa; font-size: 0.9rem;">Ingresa el nombre de usuario o el número de documento/contraseña:</p>
+            <h3 class="titulo-panel">Buscar Estudiante</h3>
+            <p class="subtitulo-panel">Ingresa el nombre de usuario o el número de documento/contraseña:</p>
             <div class="caja-busqueda">
                 <input type="text" id="searchInput" class="campo-input" placeholder="Ejemplo: 10029384 o juan.perez" onkeypress="if(event.key === 'Enter') buscarEstudiante()">
                 <button class="btn-accion btn-buscar" onclick="buscarEstudiante()">Buscar 🔍</button>
@@ -143,48 +42,50 @@
         <div class="panel-profesor">
             <div class="encabezado-estudiante">
                 <div>
-                    <h3 id="studentName" style="color: #fff; margin: 0 0 5px 0;">Realiza una búsqueda</h3>
-                    <p id="studentInfo" style="color: #aaa; margin: 0 0 15px 0; font-size: 0.9rem;">Ingresa el documento o nombre para ver los datos</p>
+                    <h3 id="studentName" class="nombre-estudiante">Realiza una búsqueda</h3>
+                    <p id="studentInfo" class="info-estudiante">Ingresa el documento o nombre para ver los datos</p>
                     
                     <!-- BOTONES DE ACCIÓN EN LÍNEA -->
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div class="contenedor-botones-accion">
                         <button id="btnEstado" class="btn-accion btn-suspender" onclick="procesarCambioCupo()">Suspender Cupo</button>
-                        <button id="btnCancelarConfirmacion" class="btn-accion" onclick="cancelarConfirmacion()" style="display: none; background-color: #555; color: white;">Cancelar</button>
-                        
-                        <button id="btnEliminar" class="btn-accion" onclick="confirmarEliminacion()" style="background-color: #d9534f; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; display: none; font-weight: bold;">
-                            Eliminar Cuenta 🗑️
-                        </button>
+                        <button id="btnCancelarConfirmacion" class="btn-accion btn-cancelar-conf" onclick="cancelarConfirmacion()">Cancelar</button>
+                        <button id="btnEliminar" class="btn-accion btn-eliminar-cuenta" onclick="confirmarEliminacion()">Eliminar Cuenta 🗑️</button>
                     </div>
                 </div>
             </div>
 
-            <hr style="border-color: #333; margin: 15px 0;">
+            <hr class="separador-panel">
 
             <div>
-                <h4 style="color: var(--amarillo-pro, #ffca28); margin-bottom: 10px;">Días Reclamados por el Estudiante:</h4>
+                <h4 class="titulo-dias">Días Reclamados por el Estudiante:</h4>
                 <div class="lista-dias" id="historyList">
                     <!-- Cargados dinámicamente -->
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="footer">
+    <!-- PIE DE PÁGINA UNIFICADO -->
+    <footer class="footer-global">
+        <div class="contenido-footer">
             <div class="info-footer">
-                <h3>🔎 Dirección</h3>
+                <h3>Dirección</h3>
                 <p>Carrera 81 #43 sur 38</p>
                 <p>San Antonio De Prado, Colombia</p>
             </div>
             <div class="info-footer">
-                <h3>📞 Contacto</h3>
+                <h3>Contacto</h3>
                 <p>3127127266</p>
                 <p>mjb@iemanueljbetancur.edu.co</p>
             </div>
         </div>
 
-        <footer class="mini-footer">
+        <div class="linea-divisora"></div>
+
+        <div class="mini-footer">
             Copyright © 2025-2026 - Todos los derechos reservados (Fila pro). 
-        </footer>
-    </main>
+        </div>
+    </footer>
 
     <div class="toast-container" id="toastContainer"></div>
 
@@ -230,7 +131,7 @@
             document.getElementById("btnEliminar").style.display = "none";
             document.getElementById("studentName").textContent = "Realiza una búsqueda";
             document.getElementById("studentInfo").textContent = "Ingresa el documento o nombre para ver los datos";
-            document.getElementById("historyList").innerHTML = "<p style='color:#888;'>Ingresa datos para consultar.</p>";
+            document.getElementById("historyList").innerHTML = "<p class='mensaje-vacio'>Ingresa datos para consultar.</p>";
         }
 
         async function buscarEstudiante() {
@@ -297,7 +198,7 @@
                     historyList.appendChild(badge);
                 });
             } else {
-                historyList.innerHTML = "<p style='color:#888;'>No registra días reclamados.</p>";
+                historyList.innerHTML = "<p class='mensaje-vacio'>No registra días reclamados.</p>";
             }
         }
 
@@ -361,7 +262,6 @@
             }
         }
 
-        /* LÓGICA DE MODAL DE CONFIRMACIÓN DE ELIMINACIÓN */
         function confirmarEliminacion() {
             if (!estudianteActual) return;
             const nombreUsuario = estudianteActual.usuario || estudianteActual.nombre || "este estudiante";

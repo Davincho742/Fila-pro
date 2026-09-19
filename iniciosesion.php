@@ -55,22 +55,7 @@
 
     </main>
 
-    <footer class="footer-completo">
-        <div class="contenido-footer">
-            <div class="info-footer">
-                <h3>Fila Pro</h3>
-                <p>Sistema de gestión y control alimentario escolar.</p>
-            </div>
-            <div class="info-footer">
-                <h3>Contacto</h3>
-                <p>Soporte institucional</p>
-                <p>Atención: Horario Escolar</p>
-            </div>
-        </div>
-        <div class="mini-footer">
-            <p>&copy; 2026 Fila Pro. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+    
 
     <script>
       const selectModo = document.getElementById('select-modo');
