@@ -71,8 +71,8 @@ body {
 }
 
 .banner img {
-    width: 85%;
-    max-width: 220px;
+    width: 400%;
+    max-width: 400px;
     height: auto;
     border-radius: 12px;
     object-fit: contain;

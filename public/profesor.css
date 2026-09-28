@@ -123,9 +123,10 @@ button:hover:not(.menu) {
     flex: 1 0 auto;
 }
 
+
 .banner img {
-    width: 150px !important;
-    max-width: 150px !important;
+    width: 400%;
+    max-width: 400px;
     height: auto !important;
     display: block !important;
     margin: 0 auto !important;
@@ -135,14 +136,14 @@ button:hover:not(.menu) {
 
 .caja.bienvenida {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 /* ====================== MÓDULO PANEL DEL PROFESOR ====================== */
 .panel-profesor {
     background-color: var(--negro-sidebar);
     border-radius: 20px;
-    padding: 25px;
+    padding: 30px;
     border-left: 4px solid var(--amarillo-pro);
     margin: 20px auto;
     max-width: 800px;

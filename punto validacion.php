@@ -31,7 +31,7 @@
     
     <main class="foto">
         <div class="banner">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro">
+            <img src="filapro.png" alt="Logo Fila Pro">
         </div>
 
         <div class="caja bienvenida">

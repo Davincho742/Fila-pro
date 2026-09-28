@@ -32,7 +32,7 @@
         
         <!-- BANNER LOGO CENTRADO -->
         <div class="banner">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro">
+            <img src="filapro.png" alt="Logo Fila Pro">
         </div>
 
         <div class="caja bienvenida">
@@ -84,14 +84,14 @@
 
         function procesarAsistencia(idEstudiante) {
             if (!idEstudiante) {
-                mostrarResultado("❌", "ERROR: Código QR no válido.", "#ff4d4d");
+                mostrarResultado( "ERROR: Código QR no válido.", "#ff4d4d");
                 return;
             }
 
             if (procesando) return;
             procesando = true;
 
-            mostrarResultado("⏳", "Guardando registro en la base de datos...", "#ffaa00");
+            mostrarResultado("Guardando registro en la base de datos...", "#ffaa00");
 
             fetch('guardar_escaneo.php', {
                 method: 'POST',
@@ -111,12 +111,12 @@
                     mostrarResultado("✓", `¡Registrado en BD! ID: ${idEstudiante}`, "#2aff7a");
                     document.getElementById('contador-escaneos').innerText = `Registros guardados en BD: ${totalEscaneos}`;
                 } else {
-                    mostrarResultado("❌", `Error BD: ${data.mensaje}`, "#ff4d4d");
+                    mostrarResultado(`Error BD: ${data.mensaje}`, "#ff4d4d");
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-                mostrarResultado("❌", "Error de conexión con el servidor", "#ff4d4d");
+                mostrarResultado("Error de conexión con el servidor", "#ff4d4d");
             })
             .finally(() => {
                 setTimeout(() => {

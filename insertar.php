@@ -17,6 +17,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    // 2.1 VALIDACIÓN DE SEGURIDAD DE CONTRASEÑA EN EL SERVIDOR (PHP)
+    // Expresión Regular: Mínimo 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial
+    $regexPassword = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/';
+
+    if (!preg_match($regexPassword, $contrasena)) {
+        echo json_encode([
+            'success' => false, 
+            'message' => 'La contraseña debe incluir mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
+        ]);
+        exit();
+    }
+
     // 3. Verificar si el usuario ya existe (usando Nombre_usuario)
     $checkSql = "SELECT Nombre_usuario FROM usuarios WHERE Nombre_usuario = ?";
     $checkStmt = $conexion->prepare($checkSql);

@@ -21,22 +21,24 @@
     <main class="foto">
         <!-- BANNER LOGO -->
         <div class="banner">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro">
+            <img src="filapro.png" alt="Logo Fila Pro">
         </div>
 
         <div class="caja bienvenida">
             <p>Bienvenido a la plataforma oficial de Fila Pro.</p>
         </div>
-
+       <br>e
         <!-- MÓDULO BÚSQUEDA DEL PROFESOR -->
         <div class="panel-profesor">
             <h3 class="titulo-panel">Buscar Estudiante</h3>
             <p class="subtitulo-panel">Ingresa el nombre de usuario o el número de documento/contraseña:</p>
             <div class="caja-busqueda">
-                <input type="text" id="searchInput" class="campo-input" placeholder="Ejemplo: 10029384 o juan.perez" onkeypress="if(event.key === 'Enter') buscarEstudiante()">
-                <button class="btn-accion btn-buscar" onclick="buscarEstudiante()">Buscar 🔍</button>
+                <input type="text" id="searchInput" class="campo-input" placeholder="Ejemplo: 10029384 o juan.perez" onkeypress="if(event.key === 'Enter') buscarEstudiante()" oninput="if(this.value.trim() === '') resetearInterfaz()">
+                <button class="btn-accion btn-buscar" onclick="buscarEstudiante()">Buscar </button>
             </div>
         </div>
+       
+
 
         <!-- DATOS Y CONTROL DEL ESTUDIANTE -->
         <div class="panel-profesor">
@@ -49,7 +51,7 @@
                     <div class="contenedor-botones-accion">
                         <button id="btnEstado" class="btn-accion btn-suspender" onclick="procesarCambioCupo()">Suspender Cupo</button>
                         <button id="btnCancelarConfirmacion" class="btn-accion btn-cancelar-conf" onclick="cancelarConfirmacion()">Cancelar</button>
-                        <button id="btnEliminar" class="btn-accion btn-eliminar-cuenta" onclick="confirmarEliminacion()">Eliminar Cuenta 🗑️</button>
+                        <button id="btnEliminar" class="btn-accion btn-eliminar-cuenta" onclick="confirmarEliminacion()">Eliminar Cuenta </button>
                     </div>
                 </div>
             </div>
@@ -92,7 +94,7 @@
     <!-- MODAL DE CONFIRMACIÓN -->
     <div class="modal-overlay" id="customModal">
         <div class="modal-box">
-            <h4>⚠️ Confirmar Eliminación</h4>
+            <h4>Confirmar Eliminación</h4>
             <p id="modalMessage">¿Deseas eliminar permanentemente a este estudiante?</p>
             <div class="modal-acciones">
                 <button class="btn-modal btn-modal-cancelar" onclick="cerrarModal()">Cancelar</button>
@@ -107,6 +109,13 @@
 
         window.onload = function() {
             resetearInterfaz();
+
+            // Evento para limpiar el panel si la barra de búsqueda se vacía
+            document.getElementById("searchInput").addEventListener("input", function() {
+                if (this.value.trim() === "") {
+                    resetearInterfaz();
+                }
+            });
         };
 
         function mostrarToast(mensaje, tipo = 'info') {
@@ -138,14 +147,14 @@
             cancelarConfirmacion();
             const query = document.getElementById("searchInput").value.trim();
             if (!query) {
-                mostrarToast("⚠️ Ingresa un documento o usuario.", "warning");
+                mostrarToast("Ingresa un documento o usuario.", "warning");
                 return;
             }
 
             try {
                 const respuesta = await fetch(`api_profesor.php?accion=buscar&q=${encodeURIComponent(query)}`);
                 if (!respuesta.ok) {
-                    mostrarToast(`❌ Error de servidor (${respuesta.status}).`, "error");
+                    mostrarToast(`Error de servidor (${respuesta.status}).`, "error");
                     return;
                 }
 
@@ -154,12 +163,12 @@
                 if (data.exito) {
                     estudianteActual = data.estudiante;
                     renderizar();
-                    mostrarToast("✅ Datos cargados correctamente.", "success");
+                    mostrarToast("Datos cargados correctamente.", "success");
                 } else {
-                    mostrarToast(data.mensaje || "❌ Estudiante no encontrado.", "error");
+                    mostrarToast(data.mensaje || " Estudiante no encontrado.", "error");
                 }
             } catch (error) {
-                mostrarToast("❌ Error de conexión.", "error");
+                mostrarToast(" Error de conexión.", "error");
             }
         }
 
@@ -212,7 +221,7 @@
 
             if (!esperandoConfirmacionEstado) {
                 esperandoConfirmacionEstado = true;
-                btn.textContent = `⚠️ Confirmar ${accionTexto}`;
+                btn.textContent = `Confirmar ${accionTexto}`;
                 btn.classList.add("btn-confirmar-accion");
                 btnCancelar.style.display = "inline-block";
                 return;
@@ -251,13 +260,13 @@
                     estudianteActual.activo = (estudianteActual.estado === 'activo');
                     cancelarConfirmacion();
                     renderizar();
-                    mostrarToast(`✅ Estado actualizado a: ${nuevoEstado.toUpperCase()}`, "success");
+                    mostrarToast(` Estado actualizado a: ${nuevoEstado.toUpperCase()}`, "success");
                 } else {
-                    mostrarToast(data.mensaje || "❌ No se pudo actualizar el estado.", "error");
+                    mostrarToast(data.mensaje || " No se pudo actualizar el estado.", "error");
                     cancelarConfirmacion();
                 }
             } catch (error) {
-                mostrarToast("❌ Error al conectar con api_profesor.php", "error");
+                mostrarToast("Error al conectar con api_profesor.php", "error");
                 cancelarConfirmacion();
             }
         }
@@ -290,16 +299,16 @@
                 const data = await respuesta.json();
 
                 if (data.exito) {
-                    mostrarToast("✅ " + (data.mensaje || "Estudiante eliminado."), "success");
+                    mostrarToast(+ (data.mensaje || "Estudiante eliminado."), "success");
                     resetearInterfaz();
                     document.getElementById("searchInput").value = "";
                 } else {
-                    mostrarToast("❌ " + (data.mensaje || "No se pudo eliminar el estudiante."), "error");
+                    mostrarToast( + (data.mensaje || "No se pudo eliminar el estudiante."), "error");
                 }
             } catch (error) {
-                mostrarToast("❌ Error al procesar la eliminación.", "error");
+                mostrarToast(" Error al procesar la eliminación.", "error");
             }
         }
     </script>
 </body>
-</html>
+</html>             

@@ -17,7 +17,7 @@
             <div class="login">
                 <!-- Banner / Logo -->
                 <div class="banner">
-                    <img src="Fila pro.jpg" alt="Logo Fila Pro">
+                    <img src="filapro.png" alt="Logo Fila Pro">
                 </div>
 
                 <h2>Inicio de sesión</h2>
@@ -56,11 +56,23 @@
     </main>
 
     
+<script>
+      // Funcionalidad para ver/ocultar contraseña
+      const togglePassword = document.getElementById('togglePassword');
+      const eyeIcon = document.getElementById('eyeIcon');
+      const inputContrasena = document.getElementById('contraseña');
 
-    <script>
+      if (togglePassword && inputContrasena && eyeIcon) {
+          togglePassword.addEventListener('click', function () {
+              const isPassword = inputContrasena.getAttribute('type') === 'password';
+              inputContrasena.setAttribute('type', isPassword ? 'text' : 'password');
+              eyeIcon.classList.toggle('fa-eye');
+              eyeIcon.classList.toggle('fa-eye-slash');
+          });
+      }
+
       const selectModo = document.getElementById('select-modo');
       const inputUsuario = document.getElementById('usuario');
-      const inputContrasena = document.getElementById('contraseña');
       const campoUsuario = document.getElementById('campo-usuario');
       const campoContrasena = document.getElementById('campo-contraseña');
       const campoRegistro = document.getElementById('campo-registro');
@@ -151,6 +163,7 @@
             });
         });
     });
-    </script>
+</script>       
+   
 </body>
 </html>

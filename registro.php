@@ -6,8 +6,44 @@
     <title>Fila Pro - Registro</title>
     <link rel="stylesheet" href="public/registro.css?v=4">
     <link rel="icon" type="image/x-icon" href="Fila pro.jpg">
+    <!-- FontAwesome CDN para el icono del ojo (NUEVO) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Estilos añadidos para posicionar el icono del ojo (NUEVO) -->
+    <style>
+        .campo-password {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .campo-password input {
+            width: 100%;
+            padding-right: 45px;
+        }
+
+        .btn-toggle-password {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: #888888;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            outline: none;
+            transition: color 0.3s ease;
+        }
+
+        .btn-toggle-password:hover {
+            color: #28a745;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,7 +53,7 @@
         <form id="form-registro">
             <div class="login">
                 <div class="banner">
-                    <img src="Fila pro.jpg" alt="Logo Fila Pro">
+                    <img src="filapro.png" alt="Logo filaPro">
                 </div>
 
                 <h2>Registro</h2>
@@ -34,21 +70,23 @@
                 </div>
 
                 <!-- Campo Contraseña -->
-                <div class="campo">
+                <div class="campo campo-password">
                     <input 
                         type="password" 
                         id="contraseña" 
                         name="contraseña" 
-                        placeholder="Contraseña (Tarjeta de Identidad)" 
+                        placeholder="Contraseña" 
                         required
                     >
+                    <!-- Botón del ojo añadido (NUEVO) -->
+                    <button type="button" id="togglePassword" class="btn-toggle-password" aria-label="Mostrar u ocultar contraseña">
+                        <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                    </button>
                 </div>
 
                 <!-- Selector de Rol -->
                 <div class="campo">
-                    <select id="rol" name="rol" required>
-                        <option value="estudiante" selected>Estudiante</option>
-                    </select>
+                    
                 </div>
 
                 <div class="campo">
@@ -62,6 +100,8 @@
                 </div>
             </div>
         </form>
+
+    
 
         <!-- SECCIÓN INFORMATIVA REDISEÑADA (MODERNA Y SIN EMOJIS) -->
         <section class="seccion-info-filapro">
@@ -116,83 +156,130 @@
         </section>
 
     </main>
+<script>
+    // 1. Lógica para alternar ver/ocultar contraseña con el botón del ojo
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInputEl = document.getElementById('contraseña');
+    const eyeIcon = document.getElementById('eyeIcon');
 
-    <script>
-        document.getElementById('form-registro').addEventListener('submit', async function(e) {
-            e.preventDefault();
+    if (togglePassword && passwordInputEl && eyeIcon) {
+        togglePassword.addEventListener('click', function () {
+            const isPassword = passwordInputEl.getAttribute('type') === 'password';
+            passwordInputEl.setAttribute('type', isPassword ? 'text' : 'password');
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+        });
+    }
 
-            const btn = document.getElementById('btn-login');
-            btn.disabled = true;
-            btn.textContent = 'Guardando...';
+    // 2. Lógica de registro y redirección directa
+    document.getElementById('form-registro').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            const formData = new FormData(this);
+        // Validación de contraseña
+        const passwordInput = document.getElementById('contraseña').value;
+        const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+        if (!regexPassword.test(passwordInput)) {
+            Swal.fire({
+                icon: 'warning',
+                iconColor: '#28a745',
+                title: 'Contraseña no segura',
+                html: `La contraseña debe cumplir con los siguientes requisitos:
+                       <ul style="text-align: left; font-size: 0.9rem; margin-top: 10px; color: #ffffff;">
+                           <li>Al menos 8 caracteres</li>
+                           <li>Al menos una letra mayúscula</li>
+                           <li>Al menos una letra minúscula</li>
+                           <li>Al menos un número</li>
+                           <li>Al menos un carácter especial (!@#$%^&*, etc.)</li>
+                       </ul>`,
+                background: '#121212',
+                color: '#ffffff',
+                confirmButtonColor: '#28a745',
+                customClass: {
+                    popup: 'alerta-negra-verde'
+                }
+            });
+            return;
+        }
+
+        const btn = document.getElementById('btn-login');
+        btn.disabled = true;
+        btn.textContent = 'Ingresando...';
+
+        const formData = new FormData(this);
+
+        try {
+            // Petición de registro
+            const resInserta = await fetch('insertar.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const textoRespuesta = await resInserta.text();
+            let dataInserta;
 
             try {
-                const resInserta = await fetch('insertar.php', {
+                dataInserta = JSON.parse(textoRespuesta);
+            } catch (errJson) {
+                Swal.fire({
+                    icon: 'error',
+                    iconColor: '#28a745',
+                    title: 'Error de Servidor',
+                    text: 'Respuesta no válida del servidor.',
+                    background: '#121212',
+                    color: '#ffffff',
+                    confirmButtonColor: '#28a745'
+                });
+                btn.disabled = false;
+                btn.textContent = 'Ingresar';
+                return;
+            }
+
+            if (dataInserta.success) {
+                // Iniciar sesión en segundo plano
+                const resLogin = await fetch('login_process.php', {
                     method: 'POST',
                     body: formData
                 });
 
-                const textoRespuesta = await resInserta.text();
-                let dataInserta;
+                const textoLogin = await resLogin.text();
+                let dataLogin = {};
 
                 try {
-                    dataInserta = JSON.parse(textoRespuesta);
-                } catch (errJson) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error de Servidor',
-                        text: 'Respuesta no válida del servidor.'
-                    });
-                    btn.disabled = false;
-                    btn.textContent = 'Ingresar';
-                    return;
-                }
+                    dataLogin = JSON.parse(textoLogin);
+                } catch (e) {}
 
-                if (dataInserta.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Registro exitoso!',
-                        text: 'Tu cuenta ha sido creada. Iniciando sesión...',
-                        timer: 1800,
-                        showConfirmButton: false
-                    });
+                // Redirección directa (d1) a la página del estudiante
+                window.location.href = dataLogin.redirect || dataInserta.redirect || 'pagina estudiante.php';
 
-                    // Iniciar sesión automáticamente
-                    const resLogin = await fetch('login_process.php', {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    const textoLogin = await resLogin.text();
-                    let dataLogin = JSON.parse(textoLogin);
-
-                    if (dataLogin.success) {
-                        setTimeout(() => {
-                            window.location.href = dataLogin.redirect || 'pagina estudiante.php';
-                        }, 1800);
-                    } else {
-                        window.location.href = 'iniciosesion.php';
-                    }
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Atención',
-                        text: dataInserta.message || 'El usuario ya existe o falta información.'
-                    });
-                    btn.disabled = false;
-                    btn.textContent = 'Ingresar';
-                }
-            } catch (error) {
+            } else {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Error de Conexión',
-                    text: 'No se pudo conectar con el servidor.'
+                    icon: 'warning',
+                    iconColor: '#28a745',
+                    title: 'Atención',
+                    text: dataInserta.message || 'El usuario ya existe o falta información.',
+                    background: '#121212',
+                    color: '#ffffff',
+                    confirmButtonColor: '#28a745'
                 });
                 btn.disabled = false;
                 btn.textContent = 'Ingresar';
             }
-        });
-    </script>
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                iconColor: '#28a745',
+                title: 'Error de Conexión',
+                text: 'No se pudo conectar con el servidor.',
+                background: '#121212',
+                color: '#ffffff',
+                confirmButtonColor: '#28a745'
+            });
+            btn.disabled = false;
+            btn.textContent = 'Ingresar';
+        }
+    });
+</script>
+ 
 </body>
 </html>

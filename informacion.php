@@ -26,7 +26,7 @@
     <!-- 2. CONTENIDO PRINCIPAL (ÚNICAMENTE EL CUERPO DE LA PÁGINA) -->
     <main class="foto">
         <div class="banner" style="text-align: center; margin: 20px 0;">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro" style="width: 150px; height: auto; display: block; margin: 0 auto; object-fit: contain;">
+            <img src="filapro.png" alt="Logo Fila Pro" style="width: 150px; height: auto; display: block; margin: 0 auto; object-fit: contain;">
         </div>
 
         <div class="estado" style="text-align: center;">
@@ -85,7 +85,7 @@
             if (estadoSimulado === "vigente") {
                 contenedor.innerHTML = `
                     <div class="estado-box estado-vigente">
-                        CUPO VIGENTE / ACTIVO ✅
+                        CUPO VIGENTE / ACTIVO 
                         <p style="font-size: 0.9rem; font-weight: normal; margin-top: 5px; color: #155724;">Tu cupo se encuentra al día. Recuerda registrar tu asistencia.</p>
                     </div>
                 `;
@@ -93,7 +93,7 @@
             else if (estadoSimulado === "suspendido") {
                 contenedor.innerHTML = `
                     <div class="estado-box estado-suspendido">
-                        CUPO SUSPENDIDO TEMPORALMENTE ⚠️
+                        CUPO SUSPENDIDO TEMPORALMENTE 
                         <p style="font-size: 0.9rem; font-weight: normal; margin-top: 5px; color: #856404;">Acumulaste fallas sin justificación. Acércate a coordinación para reactivarlo.</p>
                     </div>
                 `;
@@ -101,7 +101,7 @@
             else if (estadoSimulado === "no-agregado") {
                 contenedor.innerHTML = `
                     <div class="estado-box estado-no-agregado">
-                        NO AGREGADO A LA LISTA ❌
+                        NO AGREGADO A LA LISTA 
                         <p style="font-size: 0.9rem; font-weight: normal; margin-top: 5px; color: #721c24;">No estás en la lista oficial. Dirígete con el encargado para tu inscripción.</p>
                     </div>
                 `;

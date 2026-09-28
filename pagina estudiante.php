@@ -27,7 +27,7 @@ $nombreUsuario = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : 'Invitado'
     
     <main class="foto">
         <div class="banner" style="text-align: center; margin: 20px 0;">
-            <img src="Fila pro.jpg" alt="Logo Fila Pro" style="width: 150px !important; max-width: 150px !important; height: auto !important; display: block !important; margin: 0 auto !important; object-fit: contain !important;">
+            <img src="filapro.png" alt="Logo Fila Pro" style="width: 150px !important; max-width: 150px !important; height: auto !important; display: block !important; margin: 0 auto !important; object-fit: contain !important;">
         </div>
 
         <div class="caja bienvenida" style="text-align: center;">
